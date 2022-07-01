@@ -1,11 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-
-interface SignInResponse {
-  result: string;
-  fullname: string | undefined;
-}
 
 export function RegisterForm() {
   const [login, setLogin] = useState("");
@@ -31,6 +26,8 @@ export function RegisterForm() {
 
     if (response.status === 201) {
       alert("You have created a new account");
+    } else if (response.status === 409) {
+      alert("User with this login already exists");
     } else {
       alert("Server did not respond as expected: " + response.status);
     }

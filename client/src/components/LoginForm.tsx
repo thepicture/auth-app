@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
-import { Link, Route } from "react-router-dom";
-import { RegisterPage } from "../containers/RegisterPage";
+import { Link } from "react-router-dom";
 
 interface SignInResponse {
   result: string;
-  fullname: string | undefined;
+  fullName: string | undefined;
 }
 
 export function LoginForm() {
@@ -28,7 +27,7 @@ export function LoginForm() {
       const json: SignInResponse = await response.json();
 
       if (json.result === "ok") {
-        alert("You signed in as " + json.fullname);
+        alert("You signed in as " + json.fullName);
       } else if (json.result === "not found") {
         alert("Invalid login or password");
       } else {

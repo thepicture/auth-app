@@ -8,9 +8,9 @@ app.use(bodyParser.json());
 const DEFAULT_PORT = 3001;
 const PORT = process.env.port || DEFAULT_PORT;
 
-const users = [
-    { login: "admin", password: "admin", fullname: "foo bar" },
-    { login: "user", password: "123", fullname: "bar foo" },
+let users = [
+    { login: "admin", password: "admin", fullName: "foo bar" },
+    { login: "user", password: "123", fullName: "bar foo" },
 ]
 
 app.listen(PORT, () => {
@@ -22,15 +22,28 @@ app.post("/api/signin", (request, response) => {
     const password = request.body.password;
 
     if (users.some(u => u.login === login && u.password === password)) {
-        const fullname = users
-            .find(u => u.login === login && u.password === password)?.fullname;
+        const fullName = users
+            .find(u => u.login === login && u.password === password)?.fullName;
         response.send({
             result: "ok",
-            fullname,
+            fullName,
         });
     } else {
         response.send({
             result: "not found"
         });
+    }
+});
+
+app.post("/api/signup", (request, response) => {
+    const login = request.body.login;
+    const password = request.body.password;
+    const fullName = request.body.fullName;
+
+    if (users.some(u => u.login === login)) {
+        response.sendStatus(409);
+    } else {
+        users = [{ login, password, fullName }, ...users.slice()];
+        response.sendStatus(201);
     }
 });
