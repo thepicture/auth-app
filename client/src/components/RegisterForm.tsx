@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
-import { Link, Route } from "react-router-dom";
-import { RegisterPage } from "../containers/RegisterPage";
+import { Link } from "react-router-dom";
 
 interface SignInResponse {
   result: string;
   fullname: string | undefined;
 }
 
-export function LoginForm() {
+export function RegisterForm() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
 
-  async function handleSignIn() {
-    const response = await fetch("/api/signin", {
+  function isCanSignUp() {
+    return login !== "" && password !== "" && fullName !== "";
+  }
+
+  async function handleSignUp() {
+    const response = await fetch("/api/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,20 +25,13 @@ export function LoginForm() {
       body: JSON.stringify({
         login,
         password,
+        fullName,
       }),
     });
 
-    try {
-      const json: SignInResponse = await response.json();
-
-      if (json.result === "ok") {
-        alert("You signed in as " + json.fullname);
-      } else if (json.result === "not found") {
-        alert("Invalid login or password");
-      } else {
-        alert("Server did not respond as expected: " + response.status);
-      }
-    } catch (error) {
+    if (response.status === 201) {
+      alert("You have created a new account");
+    } else {
       alert("Server did not respond as expected: " + response.status);
     }
   }
@@ -42,7 +39,7 @@ export function LoginForm() {
   return (
     <>
       <Typography variant="h3" component="h1" align="center">
-        Sign in to continue
+        Create a new account
       </Typography>
       <TextField
         onChange={(e) => setLogin(e.target.value)}
@@ -57,21 +54,28 @@ export function LoginForm() {
         variant="standard"
         margin="normal"
       />
+      <TextField
+        onChange={(e) => setFullName(e.target.value)}
+        label="Full name"
+        variant="standard"
+        margin="normal"
+      />
       <Button
-        onClick={handleSignIn}
+        onClick={handleSignUp}
+        disabled={!isCanSignUp()}
         variant="contained"
         style={{ margin: "2em 0 0 0" }}
       >
-        Sign in
+        Create account
       </Button>
-      <Link to="/register" style={{ textDecoration: "none" }}>
+      <Link to="/" style={{ textDecoration: "none" }}>
         <Button
           style={{
             margin: "2em auto 0 auto",
             width: "100%",
           }}
         >
-          Sign Up
+          To login form
         </Button>
       </Link>
     </>
