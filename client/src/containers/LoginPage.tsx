@@ -1,4 +1,4 @@
-import { Card, Container, Stack } from "@mui/material";
+import { Card, Stack } from "@mui/material";
 import { LoginForm } from "../components/LoginForm";
 
 export function LoginPage() {
