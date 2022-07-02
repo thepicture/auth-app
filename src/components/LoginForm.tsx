@@ -7,13 +7,12 @@ interface SignInResponse {
   token: string;
 }
 
-interface User {
+interface ResponseUser {
   fullName: string;
 }
 
 export function LoginForm() {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({ login: "", password: "" });
 
   async function handleSignIn() {
     const response = await fetch("/api/signin", {
@@ -21,16 +20,13 @@ export function LoginForm() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        login,
-        password,
-      }),
+      body: JSON.stringify(user),
     });
 
     try {
       if (response.status === 200) {
         const json: SignInResponse = await response.json();
-        const user: User = jwt_decode(json.token);
+        const user: ResponseUser = jwt_decode(json.token);
         alert("You are logged in as " + user.fullName);
       } else if (response.status === 401) {
         alert("Incorrect login or password");
@@ -44,19 +40,28 @@ export function LoginForm() {
     }
   }
 
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  }
+
   return (
     <>
       <Typography variant="h3" component="h1" align="center">
         Sign in to continue
       </Typography>
       <TextField
-        onChange={(e) => setLogin(e.target.value)}
+        onChange={handleChange}
+        name="login"
         label="Login"
         variant="standard"
         margin="normal"
       />
       <TextField
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleChange}
+        name="password"
         type="password"
         label="Password"
         variant="standard"

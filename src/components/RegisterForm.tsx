@@ -3,12 +3,10 @@ import { TextField, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export function RegisterForm() {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [user, setUser] = useState({ login: "", password: "", fullName: "" });
 
   function isCanSignUp() {
-    return login !== "" && password !== "" && fullName !== "";
+    return user.login && user.password && user.fullName;
   }
 
   async function handleSignUp() {
@@ -17,11 +15,7 @@ export function RegisterForm() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        login,
-        password,
-        fullName,
-      }),
+      body: JSON.stringify(user),
     });
 
     if (response.status === 201) {
@@ -33,26 +27,36 @@ export function RegisterForm() {
     }
   }
 
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  }
+
   return (
     <>
       <Typography variant="h3" component="h1" align="center">
         Create a new account
       </Typography>
       <TextField
-        onChange={(e) => setLogin(e.target.value)}
+        onChange={handleChange}
+        name="login"
         label="Login"
         variant="standard"
         margin="normal"
       />
       <TextField
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleChange}
+        name="password"
         type="password"
         label="Password"
         variant="standard"
         margin="normal"
       />
       <TextField
-        onChange={(e) => setFullName(e.target.value)}
+        onChange={handleChange}
+        name="fullName"
         label="Full name"
         variant="standard"
         margin="normal"
