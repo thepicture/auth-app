@@ -1,55 +1,52 @@
 const path = require('path');
 const express = require("express");
 const bodyParser = require("body-parser");
-
-const app = express();
-
-app.use(express.static('build'));
-app.use(bodyParser.json());
+const defaultUsers = require("./users.json");
 
 const DEFAULT_PORT = 3000;
 const PORT = process.env.PORT || DEFAULT_PORT;
 
-let users = [
-    { login: "admin", password: "admin", fullName: "foo bar" },
-    { login: "user", password: "123", fullName: "bar foo" },
-]
+const app = express();
+let users = defaultUsers.slice();
 
-app.get('*', (_request, response) => {
-    response.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+app.use(express.static('build'));
+app.use(bodyParser.json());
+
+app.get('*', (_req, res) => {
+    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {
     console.log('Server is listening on port ' + PORT + "...");
 });
 
-app.post("/api/signin", (request, response) => {
-    const login = request.body.login;
-    const password = request.body.password;
+app.post("/api/signin", (req, res) => {
+    const login = req.body.login;
+    const password = req.body.password;
 
     if (users.some(u => u.login === login && u.password === password)) {
         const fullName = users
             .find(u => u.login === login && u.password === password)?.fullName;
-        response.send({
+        res.send({
             result: "ok",
             fullName,
         });
     } else {
-        response.send({
+        res.send({
             result: "not found"
         });
     }
 });
 
-app.post("/api/signup", (request, response) => {
-    const login = request.body.login;
-    const password = request.body.password;
-    const fullName = request.body.fullName;
+app.post("/api/signup", (req, res) => {
+    const login = req.body.login;
+    const password = req.body.password;
+    const fullName = req.body.fullName;
 
     if (users.some(u => u.login === login)) {
-        response.sendStatus(409);
+        res.sendStatus(409);
     } else {
         users = [{ login, password, fullName }, ...users.slice()];
-        response.sendStatus(201);
+        res.sendStatus(201);
     }
 });
