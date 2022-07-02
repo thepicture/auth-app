@@ -65,7 +65,7 @@ export function RegisterForm() {
       >
         Create account
       </Button>
-      <Link to="/" style={{ textDecoration: "none" }}>
+      <Link to="/login" style={{ textDecoration: "none" }}>
         <Button
           style={{
             margin: "2em auto 0 auto",
