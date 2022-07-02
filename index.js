@@ -16,26 +16,34 @@ app.get('*', (_req, res) => {
     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
-app.listen(PORT, () => {
-    console.log('Server is listening on port ' + PORT + "...");
-});
+app.listen(PORT);
 
 app.post("/api/signin", (req, res) => {
     const login = req.body.login;
     const password = req.body.password;
 
-    if (users.some(u => u.login === login && u.password === password)) {
-        const fullName = users
-            .find(u => u.login === login && u.password === password)?.fullName;
-        res.send({
-            result: "ok",
-            fullName,
-        });
-    } else {
-        res.send({
-            result: "not found"
-        });
+    let i = 0;
+    let length = users.length;
+    while (i < length) {
+        const user = users[i];
+
+        const areLoginAndPasswordCorrect =
+            areEqualOrdinalIgnoreCase(user.login, login) && user.password === password;
+
+        if (areLoginAndPasswordCorrect) {
+            res.send({
+                result: "ok",
+                fullName: user.fullName,
+            });
+            return;
+        }
+
+        i++;
     }
+
+    res.send({
+        result: "not found"
+    });
 });
 
 app.post("/api/signup", (req, res) => {
@@ -43,10 +51,25 @@ app.post("/api/signup", (req, res) => {
     const password = req.body.password;
     const fullName = req.body.fullName;
 
-    if (users.some(u => u.login === login)) {
-        res.sendStatus(409);
-    } else {
-        users = [{ login, password, fullName }, ...users.slice()];
-        res.sendStatus(201);
+    let i = 0;
+    let length = users.length;
+    while (i < length) {
+        const user = users[i];
+        if (areEqualOrdinalIgnoreCase(user.login, login)) {
+            res.sendStatus(409);
+            return;
+        }
+        i++;
     }
+
+    users = [{ login, password, fullName }, ...users.slice()];
+    res.sendStatus(201);
 });
+
+/**
+ * @param {string} first
+ * @param {string} second
+ */
+function areEqualOrdinalIgnoreCase(first, second) {
+    return first.localeCompare(second, undefined, { sensitivity: 'accent' }) === 0;
+}
