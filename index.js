@@ -1,20 +1,26 @@
+const path = require('path');
 const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
 
+app.use(express.static('build'));
 app.use(bodyParser.json());
 
-const DEFAULT_PORT = 3001;
-const PORT = process.env.port || DEFAULT_PORT;
+const DEFAULT_PORT = 3000;
+const PORT = process.env.PORT || DEFAULT_PORT;
 
 let users = [
     { login: "admin", password: "admin", fullName: "foo bar" },
     { login: "user", password: "123", fullName: "bar foo" },
 ]
 
+app.get('*', (_request, response) => {
+    response.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+});
+
 app.listen(PORT, () => {
-    console.log('Starting to listen on port ' + PORT + "...");
+    console.log('Server is listening on port ' + PORT + "...");
 });
 
 app.post("/api/signin", (request, response) => {
