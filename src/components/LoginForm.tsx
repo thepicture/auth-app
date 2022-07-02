@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 interface SignInResponse {
-  result: string;
-  fullName: string | undefined;
+  token: string;
+}
+
+interface User {
+  fullName: string;
 }
 
 export function LoginForm() {
@@ -24,17 +28,19 @@ export function LoginForm() {
     });
 
     try {
-      const json: SignInResponse = await response.json();
-
-      if (json.result === "ok") {
-        alert("You signed in as " + json.fullName);
-      } else if (json.result === "not found") {
-        alert("Invalid login or password");
+      if (response.status === 200) {
+        const json: SignInResponse = await response.json();
+        const user: User = jwt_decode(json.token);
+        alert("You are logged in as " + user.fullName);
+      } else if (response.status === 401) {
+        alert("Incorrect login or password");
       } else {
-        alert("Server did not respond as expected: " + response.status);
+        throw new Error(
+          "Server did not respond as expected: " + response.status
+        );
       }
     } catch (error) {
-      alert("Server did not respond as expected: " + response.status);
+      alert("Cannot sign in: " + error);
     }
   }
 
