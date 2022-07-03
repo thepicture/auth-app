@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import { useCookies } from "react-cookie";
 
 interface SignInResponse {
   token: string;
-}
-
-interface ResponseUser {
-  fullName: string;
+  exp: number;
 }
 
 export function LoginForm() {
+  const [cookies, setCookie] = useCookies(["token"]);
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({ login: "", password: "" });
 
   async function handleSignIn() {
@@ -26,8 +27,8 @@ export function LoginForm() {
     try {
       if (response.status === 200) {
         const json: SignInResponse = await response.json();
-        const user: ResponseUser = jwt_decode(json.token);
-        alert("You are logged in as " + user.fullName);
+        setCookie("token", json.token, { maxAge: 60 });
+        navigate("/home");
       } else if (response.status === 401) {
         alert("Incorrect login or password");
       } else {
