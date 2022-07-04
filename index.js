@@ -1,3 +1,6 @@
+// @ts-nocheck
+require("dotenv").config();
+
 const path = require('path');
 const express = require("express");
 const jwt = require("jsonwebtoken");
@@ -5,11 +8,11 @@ const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const defaultUsers = require("./users.json");
 
-// TODO: move to separate file for deploy
-const SECRET_KEY = "1234-abcd-5678-efgh";
 
 const DEFAULT_PORT = 3000;
 const PORT = process.env.PORT || DEFAULT_PORT;
+
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 const app = express();
 let users = defaultUsers.slice();
@@ -31,7 +34,7 @@ app.post("/api/signin", (req, res) => {
             areEqualOrdinalIgnoreCase(user.login, login) && user.password === password;
 
         if (areLoginAndPasswordCorrect) {
-            const token = jwt.sign({ fullName: user.fullName }, SECRET_KEY, { expiresIn: 60 });
+            const token = jwt.sign({ fullName: user.fullName }, PRIVATE_KEY, { expiresIn: 60 });
 
             res.send({ token });
             return;
@@ -47,7 +50,7 @@ app.get("/api/users", (req, res) => {
     if (req.headers.authorization) {
         const token = req.headers.authorization.split(" ")[1];
         try {
-            if (jwt.verify(token, SECRET_KEY)) {
+            if (jwt.verify(token, PRIVATE_KEY)) {
                 res.send(users.map(u => u.login.toLowerCase()));
             } else {
                 res.sendStatus(401);
