@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
+import { User, UserContext } from "../contexts/UserContext";
 
 interface SignInResponse {
   token: string;
@@ -13,7 +14,8 @@ export function LoginForm() {
   const [cookies, setCookie] = useCookies(["token"]);
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({ login: "", password: "" });
+  const [loginUser, setLoginUser] = useState({ login: "", password: "" });
+  const { user, setUser } = useContext(UserContext);
 
   async function handleSignIn() {
     const response = await fetch("/api/signin", {
@@ -21,13 +23,14 @@ export function LoginForm() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(loginUser),
     });
 
     try {
       if (response.status === 200) {
         const json: SignInResponse = await response.json();
         setCookie("token", json.token, { maxAge: 60 });
+        setUser(jwt_decode<User>(json.token));
         navigate("/home");
       } else if (response.status === 401) {
         alert("Incorrect login or password");
@@ -45,7 +48,7 @@ export function LoginForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setLoginUser({ ...loginUser, [name]: value });
   }
 
   return (

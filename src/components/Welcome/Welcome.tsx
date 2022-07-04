@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
-import { useCookies } from "react-cookie";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function Welcome() {
-  const [cookies] = useCookies(["token"]);
+  const { user } = useContext(UserContext);
 
   return (
     <Typography component="h1" variant="h5" textAlign="center">
-      You are logged in with token
-      {" " + cookies.token}
+      You are logged as {user.fullName}
     </Typography>
   );
 }
