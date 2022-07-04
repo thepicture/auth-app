@@ -8,11 +8,25 @@ export interface Goods {
   priceInCents: number;
   imageUrl: string | undefined;
   alt: string | undefined;
+  isInBasket: boolean;
 }
 
 export default function GoodsPage() {
   const [{ token }] = useCookies(["token"]);
   const [goods, setGoods] = useState<Goods[]>([]);
+
+  function handleBasketAdd(id: number) {
+    const newGoods = goods.slice();
+
+    newGoods.forEach((p) => {
+      if (p.id === id) {
+        p.isInBasket = !p.isInBasket;
+      }
+      return p;
+    });
+
+    setGoods(newGoods);
+  }
 
   useEffect(() => {
     setGoodsToState();
@@ -30,7 +44,7 @@ export default function GoodsPage() {
 
   return (
     <>
-      <GoodsList goods={goods} />
+      <GoodsList goods={goods} onBasketAdd={handleBasketAdd} />
     </>
   );
 }

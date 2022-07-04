@@ -1,38 +1,29 @@
 import { Typography, Card, Box, Divider } from "@mui/material";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Goods } from "../../containers/GoodsPage/GoodsPage";
+import GoodsItems from "./GoodsItems/GoodsItems";
 
 interface GoodsProps {
   goods: Goods[];
+  onBasketAdd: (id: number) => void;
+}
+
+export interface Basket {
+  id: number;
+  title: string;
 }
 
 export default function GoodsList(props: GoodsProps) {
-  function mapGoods() {
-    return props.goods.map((product) => {
-      return (
-        <Card key={product.id} sx={{ margin: "1em" }} elevation={4}>
-          <Box>
-            <Typography component="h1" variant="h3" textAlign="center">
-              Title: {product.title}
-            </Typography>
-            <Divider />
-            <Typography component="h2" variant="h4" textAlign="center">
-              Price: {Math.fround(product.priceInCents / 100)}$
-            </Typography>
-            <img
-              src={product.imageUrl}
-              alt={product.alt}
-              width={100}
-              height={100}
-            />
-          </Box>
-        </Card>
-      );
-    });
-  }
-
   if (props.goods.length > 0) {
-    return <>{mapGoods()}</>;
+    return (
+      <>
+        <Typography component="h1" variant="h3" textAlign="center">
+          Goods List (counf of items in basket:{" "}
+          {props.goods.filter((g) => g.isInBasket).length})
+        </Typography>
+        <GoodsItems goods={props.goods} onBasketAdd={props.onBasketAdd} />
+      </>
+    );
   } else {
     return <Typography>Loading...</Typography>;
   }
