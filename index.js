@@ -6,8 +6,9 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 
 const bodyParser = require("body-parser");
-const defaultUsers = require("./users.json");
 
+const defaultUsers = require("./users.json");
+const defaultProducts = require("./goods.json");
 
 const DEFAULT_PORT = 3000;
 const PORT = process.env.PORT || DEFAULT_PORT;
@@ -80,6 +81,24 @@ app.post("/api/signup", (req, res) => {
 
     users = [{ login, password, fullName }, ...users.slice()];
     res.sendStatus(201);
+});
+
+app.get("/api/goods", (req, res) => {
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(" ")[1];
+        try {
+            if (jwt.verify(token, PRIVATE_KEY)) {
+                res.send(defaultProducts);
+            } else {
+                res.sendStatus(401);
+            }
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(401);
+        }
+    } else {
+        res.sendStatus(401);
+    }
 });
 
 app.get('*', (_req, res) => {

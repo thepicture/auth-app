@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { GuestRoute } from "../components/GuestRoute/GuestRoute";
 import { PrivateRoute } from "../components/PrivateRoute/PrivateRoute";
+import GoodsPage from "./GoodsPage/GoodsPage";
 import HomePage from "./HomePage/HomePage";
 import { LoginPage } from "./LoginPage";
 import { RegisterPage } from "./RegisterPage";
@@ -37,6 +38,14 @@ function App() {
         element={
           <PrivateRoute>
             <HomePage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/goods"
+        element={
+          <PrivateRoute>
+            <GoodsPage />
           </PrivateRoute>
         }
       />
