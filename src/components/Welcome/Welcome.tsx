@@ -6,7 +6,7 @@ export default function Welcome() {
   const { user } = useContext(UserContext);
 
   return (
-    <Typography component="h1" variant="h5" textAlign="center">
+    <Typography component="h1" variant="h3" textAlign="center">
       You are logged as {user.fullName}
     </Typography>
   );
