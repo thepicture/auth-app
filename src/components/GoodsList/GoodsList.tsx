@@ -18,8 +18,8 @@ export default function GoodsList(props: GoodsProps) {
     return (
       <>
         <Typography component="h1" variant="h3" textAlign="center">
-          Goods List (counf of items in basket:{" "}
-          {props.goods.filter((g) => g.isInBasket).length})
+          Goods List (count of products in basket:
+          {" " + props.goods.filter((g) => g.isInBasket).length})
         </Typography>
         <GoodsItems goods={props.goods} onBasketAdd={props.onBasketAdd} />
       </>

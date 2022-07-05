@@ -1,5 +1,4 @@
 import { Card, Box, Typography, Divider, Button } from "@mui/material";
-import React from "react";
 import { Goods } from "../../../containers/GoodsPage/GoodsPage";
 
 interface GoodsProps {
@@ -14,30 +13,45 @@ export default function GoodsItems(props: GoodsProps) {
     <>
       {goods.map((product) => {
         return (
-          <Card key={product.id} sx={{ margin: "1em" }} elevation={4}>
+          <Card
+            key={product.id}
+            sx={{ margin: "1em auto", padding: "2em 0", width: "50%" }}
+            elevation={4}
+          >
             <Box display="flex" flexDirection="column">
-              <Typography component="h1" variant="h3" textAlign="center">
+              <Typography
+                component="h1"
+                variant="h4"
+                textAlign="center"
+                padding=".1em"
+              >
                 Title: {product.title}
               </Typography>
               <Divider />
-              <Typography component="h2" variant="h4" textAlign="center">
+              <Typography
+                component="h2"
+                variant="h5"
+                textAlign="center"
+                padding=".5em"
+              >
                 Price: {Math.fround(product.priceInCents / 100)}$
               </Typography>
               <img
                 src={product.imageUrl}
                 alt={product.alt}
-                width={100}
-                height={100}
+                height={300}
+                width="100%"
+                style={{ objectFit: "cover", margin: "auto" }}
               />
               <Button
                 onClick={() => props.onBasketAdd(product.id)}
-                variant="contained"
+                variant={product.isInBasket ? "outlined" : "contained"}
                 sx={{
-                  margin: "auto",
-                  display: product.isInBasket ? "none" : "inherit",
+                  margin: "2em 2em 0 2em",
+                  boxSizing: "border-box",
                 }}
               >
-                Add to basket
+                {product.isInBasket ? "Remove from basket" : "Add to basket"}
               </Button>
             </Box>
           </Card>
