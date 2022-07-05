@@ -11,21 +11,21 @@ const bodyParser = require("body-parser");
 const defaultUsers = require("./users.json");
 const defaultProducts = require("./goods.json");
 
-const DEFAULT_PORT = 5000;
+const DEFAULT_PORT = 80;
 const PORT = process.env.PORT || DEFAULT_PORT;
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
-const app = express();
 let users = defaultUsers.slice();
+
+const app = express();
+app.use(cors())
+
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static('build'));
 }
 
-app.use(cors({
-    origin: "http://localhost:3000"
-}))
 app.use(bodyParser.json());
 
 app.listen(PORT);
