@@ -4,13 +4,14 @@ require("dotenv").config();
 const path = require('path');
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 const bodyParser = require("body-parser");
 
 const defaultUsers = require("./users.json");
 const defaultProducts = require("./goods.json");
 
-const DEFAULT_PORT = 3000;
+const DEFAULT_PORT = 5000;
 const PORT = process.env.PORT || DEFAULT_PORT;
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
@@ -18,7 +19,13 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const app = express();
 let users = defaultUsers.slice();
 
-app.use(express.static('build'));
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static('build'));
+}
+
+app.use(cors({
+    origin: "http://localhost:3000"
+}))
 app.use(bodyParser.json());
 
 app.listen(PORT);

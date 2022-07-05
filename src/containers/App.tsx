@@ -6,7 +6,7 @@ import HomePage from "./HomePage/HomePage";
 import { LoginPage } from "./LoginPage";
 import { RegisterPage } from "./RegisterPage";
 import { UserContext, User } from "../contexts/UserContext";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 function App() {
   const [user, setUser] = useState<User>({});

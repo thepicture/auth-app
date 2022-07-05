@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
 import { User, UserContext } from "../contexts/UserContext";
+import { BASE_URL } from "../http/Api";
 
 interface SignInResponse {
   token: string;
@@ -18,7 +19,7 @@ export function LoginForm() {
   const { user, setUser } = useContext(UserContext);
 
   async function handleSignIn() {
-    const response = await fetch("/api/signin", {
+    const response = await fetch(BASE_URL + "/api/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

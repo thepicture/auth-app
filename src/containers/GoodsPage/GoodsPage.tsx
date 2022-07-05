@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import GoodsList from "../../components/GoodsList/GoodsList";
+import { BASE_URL } from "../../http/Api";
 
 export interface Goods {
   id: number;
@@ -33,7 +34,7 @@ export default function GoodsPage() {
   }, []);
 
   const setGoodsToState = async () => {
-    const response = await fetch("api/goods", {
+    const response = await fetch(BASE_URL + "/api/goods", {
       headers: {
         Authorization: "Bearer " + token,
       },

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../http/Api";
 
 export function RegisterForm() {
   const [user, setUser] = useState({ login: "", password: "", fullName: "" });
@@ -10,7 +11,7 @@ export function RegisterForm() {
   }
 
   async function handleSignUp() {
-    const response = await fetch("/api/signup", {
+    const response = await fetch(BASE_URL + "/api/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
