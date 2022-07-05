@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Card } from "@mui/material";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import Welcome from "../../components/Welcome/Welcome";
@@ -15,34 +15,49 @@ export default function HomePage() {
   }
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
+    <Card
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        padding: "3em",
+      }}
     >
-      <Welcome />
-      <Link to="/goods" style={{ textDecoration: "none" }}>
-        <Button
-          variant="contained"
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+      >
+        <Welcome />
+        <Link
+          to="/goods"
           style={{
-            margin: "2em auto 0 auto",
+            textDecoration: "none",
             width: "100%",
           }}
         >
-          Show goods
+          <Button
+            variant="contained"
+            style={{
+              width: "100%",
+              margin: "2em auto 0 auto",
+            }}
+          >
+            Show goods
+          </Button>
+        </Link>
+        <Button
+          onClick={handleLogout}
+          sx={{
+            margin: "2em auto 1em auto",
+            width: "100%",
+          }}
+        >
+          Logout
         </Button>
-      </Link>
-      <Button
-        onClick={handleLogout}
-        variant="outlined"
-        style={{
-          margin: "2em auto 1em auto",
-          width: "100%",
-        }}
-      >
-        Logout
-      </Button>
-    </Box>
+      </Box>
+    </Card>
   );
 }
