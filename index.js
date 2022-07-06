@@ -23,12 +23,15 @@ app.use(cors())
 
 
 if (process.env.NODE_ENV === "production") {
+    console.log("Production enabled");
     app.use(express.static('build'));
 }
 
 app.use(bodyParser.json());
 
-app.listen(PORT);
+app.listen(PORT, () => {
+    console.log("Listening on port " + PORT + "...");
+});
 
 app.post("/api/signin", (req, res) => {
     const { login, password } = req.body;

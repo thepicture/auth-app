@@ -41,7 +41,7 @@ export default function GoodsPage() {
     };
 
     setGoodsToState();
-  }, []);
+  }, [token]);
 
   return (
     <>
