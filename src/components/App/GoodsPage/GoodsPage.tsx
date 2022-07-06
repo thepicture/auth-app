@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import GoodsList from "./GoodsList/GoodsList";
 import { BASE_URL } from "../../../http/Api";
 import { Button, Card } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export interface Goods {
   id: number;
@@ -59,9 +60,18 @@ export default function GoodsPage() {
           justifyContent: "center",
         }}
       >
-        <Button disabled={!goods.some((g) => g.isInBasket)} variant="contained">
-          Order selected products
-        </Button>
+        <Link
+          to="/order"
+          state={{ goods: goods.filter((g) => g.isInBasket) }}
+          style={{ textDecoration: "none" }}
+        >
+          <Button
+            disabled={!goods.some((g) => g.isInBasket)}
+            variant="contained"
+          >
+            Order selected products
+          </Button>
+        </Link>
       </Card>
     </>
   );

@@ -111,6 +111,24 @@ app.get("/api/goods", (req, res) => {
     }
 });
 
+app.post("/api/order", (req, res) => {
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(" ")[1];
+        try {
+            if (jwt.verify(token, PRIVATE_KEY)) {
+                res.send(201);
+            } else {
+                res.sendStatus(401);
+            }
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(401);
+        }
+    } else {
+        res.sendStatus(401);
+    }
+});
+
 app.get('*', (_req, res) => {
     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });

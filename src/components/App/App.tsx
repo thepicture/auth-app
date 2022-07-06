@@ -7,6 +7,7 @@ import { LoginPage } from "./LoginPage/LoginPage";
 import { RegisterPage } from "./RegisterPage/RegisterPage";
 import { UserContext, User } from "./../../contexts/UserContext";
 import { useState } from "react";
+import OrderPage from "./OrderPage/OrderPage";
 
 function App() {
   const [user, setUser] = useState<User>({});
@@ -51,6 +52,14 @@ function App() {
           element={
             <PrivateRoute>
               <GoodsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <PrivateRoute>
+              <OrderPage />
             </PrivateRoute>
           }
         />
