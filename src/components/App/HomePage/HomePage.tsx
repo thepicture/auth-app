@@ -1,7 +1,7 @@
 import { Box, Button, Card } from "@mui/material";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
-import Welcome from "../../components/Welcome/Welcome";
+import Welcome from "./Welcome/Welcome";
 
 export default function HomePage() {
   const [_cookies, _setCookie, removeCookie] = useCookies(["token"]);

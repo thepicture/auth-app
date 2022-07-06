@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import GoodsList from "../../components/GoodsList/GoodsList";
-import { BASE_URL } from "../../http/Api";
+import GoodsList from "./GoodsList/GoodsList";
+import { BASE_URL } from "../../../http/Api";
 
 export interface Goods {
   id: number;
@@ -30,18 +30,18 @@ export default function GoodsPage() {
   }
 
   useEffect(() => {
+    const setGoodsToState = async () => {
+      const response = await fetch(BASE_URL + "/api/goods", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      const goodsResponse: Goods[] = await response.json();
+      setGoods(goodsResponse);
+    };
+
     setGoodsToState();
   }, []);
-
-  const setGoodsToState = async () => {
-    const response = await fetch(BASE_URL + "/api/goods", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
-    const goodsResponse: Goods[] = await response.json();
-    setGoods(goodsResponse);
-  };
 
   return (
     <>

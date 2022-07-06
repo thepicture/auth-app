@@ -1,5 +1,5 @@
 import { Card, Box, Typography, Divider, Button } from "@mui/material";
-import { Goods } from "../../../containers/GoodsPage/GoodsPage";
+import { Goods } from "./../../../GoodsPage/GoodsPage";
 
 interface GoodsProps {
   goods: Goods[];

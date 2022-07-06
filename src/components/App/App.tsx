@@ -1,11 +1,11 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { GuestRoute } from "../components/GuestRoute/GuestRoute";
-import { PrivateRoute } from "../components/PrivateRoute/PrivateRoute";
+import { Routes, Route } from "react-router-dom";
+import { GuestRoute } from "./GuestRoute/GuestRoute";
+import { PrivateRoute } from "./PrivateRoute/PrivateRoute";
 import GoodsPage from "./GoodsPage/GoodsPage";
 import HomePage from "./HomePage/HomePage";
-import { LoginPage } from "./LoginPage";
-import { RegisterPage } from "./RegisterPage";
-import { UserContext, User } from "../contexts/UserContext";
+import { LoginPage } from "./LoginPage/LoginPage";
+import { RegisterPage } from "./RegisterPage/RegisterPage";
+import { UserContext, User } from "./../../contexts/UserContext";
 import { useState } from "react";
 
 function App() {

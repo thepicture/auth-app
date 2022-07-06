@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import { UserContext } from "../../../../contexts/UserContext";
 
 export default function Welcome() {
   const { user } = useContext(UserContext);

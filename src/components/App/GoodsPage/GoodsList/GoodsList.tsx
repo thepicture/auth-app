@@ -1,6 +1,5 @@
-import { Typography, Card, Box, Divider } from "@mui/material";
-import React, { Fragment, useState } from "react";
-import { Goods } from "../../containers/GoodsPage/GoodsPage";
+import { Typography } from "@mui/material";
+import { Goods } from "../../GoodsPage/GoodsPage";
 import GoodsItems from "./GoodsItems/GoodsItems";
 
 interface GoodsProps {

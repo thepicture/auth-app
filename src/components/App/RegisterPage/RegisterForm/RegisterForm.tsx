@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { TextField, Button, Typography, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import { BASE_URL } from "../http/Api";
+import { BASE_URL } from "./../../../../http/Api";
 
 export function RegisterForm() {
   const [user, setUser] = useState({ login: "", password: "", fullName: "" });

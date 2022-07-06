@@ -1,7 +1,7 @@
 import { Card } from "@mui/material";
-import { LoginForm } from "../components/LoginForm";
+import { RegisterForm } from "./RegisterForm/RegisterForm";
 
-export function LoginPage() {
+export function RegisterPage() {
   return (
     <Card
       style={{
@@ -12,7 +12,7 @@ export function LoginPage() {
         padding: "3em",
       }}
     >
-      <LoginForm />
+      <RegisterForm />
     </Card>
   );
 }

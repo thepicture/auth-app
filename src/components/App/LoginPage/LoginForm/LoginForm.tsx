@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import { TextField, Button, Typography, Box, Stack } from "@mui/material";
+import { TextField, Button, Typography, Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
-import { User, UserContext } from "../contexts/UserContext";
-import { BASE_URL } from "../http/Api";
+import { User, UserContext } from "../../../../contexts/UserContext";
+import { BASE_URL } from "../../../../http/Api";
 
 interface SignInResponse {
   token: string;
@@ -12,11 +12,11 @@ interface SignInResponse {
 }
 
 export function LoginForm() {
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [_cookies, setCookie] = useCookies(["token"]);
   const navigate = useNavigate();
 
   const [loginUser, setLoginUser] = useState({ login: "", password: "" });
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   async function handleSignIn(event: React.FormEvent) {
     event.preventDefault();
