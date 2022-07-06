@@ -53,6 +53,8 @@ export default function GoodsPage() {
         sx={{
           position: "fixed",
           bottom: 0,
+          left: "10px",
+          right: "10px",
           padding: "2em",
           margin: "2em",
           boxSizing: "border-box",
