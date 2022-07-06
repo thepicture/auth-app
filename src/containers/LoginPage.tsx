@@ -1,4 +1,4 @@
-import { Card, Stack } from "@mui/material";
+import { Card } from "@mui/material";
 import { LoginForm } from "../components/LoginForm";
 
 export function LoginPage() {
@@ -12,9 +12,7 @@ export function LoginPage() {
         padding: "3em",
       }}
     >
-      <Stack>
-        <LoginForm />
-      </Stack>
+      <LoginForm />
     </Card>
   );
 }

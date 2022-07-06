@@ -1,4 +1,4 @@
-import { Card, Stack } from "@mui/material";
+import { Card } from "@mui/material";
 import { RegisterForm } from "../components/RegisterForm";
 
 export function RegisterPage() {
@@ -12,9 +12,7 @@ export function RegisterPage() {
         padding: "3em",
       }}
     >
-      <Stack>
-        <RegisterForm />
-      </Stack>
+      <RegisterForm />
     </Card>
   );
 }

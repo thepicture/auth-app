@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { TextField, Button, Typography } from "@mui/material";
+import { FormEvent, useState } from "react";
+import { TextField, Button, Typography, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../http/Api";
 
@@ -10,7 +10,9 @@ export function RegisterForm() {
     return user.login && user.password && user.fullName;
   }
 
-  async function handleSignUp() {
+  async function handleSignUp(event: FormEvent) {
+    event.preventDefault();
+
     const response = await fetch(BASE_URL + "/api/signup", {
       method: "POST",
       headers: {
@@ -36,50 +38,53 @@ export function RegisterForm() {
   }
 
   return (
-    <>
-      <Typography variant="h3" component="h1" align="center">
-        Create a new account
-      </Typography>
-      <TextField
-        onChange={handleChange}
-        name="login"
-        label="Login"
-        variant="standard"
-        margin="normal"
-      />
-      <TextField
-        onChange={handleChange}
-        name="password"
-        type="password"
-        label="Password"
-        variant="standard"
-        margin="normal"
-      />
-      <TextField
-        onChange={handleChange}
-        name="fullName"
-        label="Full name"
-        variant="standard"
-        margin="normal"
-      />
-      <Button
-        onClick={handleSignUp}
-        disabled={!isCanSignUp()}
-        variant="contained"
-        style={{ margin: "2em 0 0 0" }}
-      >
-        Create account
-      </Button>
-      <Link to="/login" style={{ textDecoration: "none" }}>
+    <form onSubmit={handleSignUp}>
+      <Stack>
+        <Typography variant="h3" component="h1" align="center">
+          Create a new account
+        </Typography>
+        <TextField
+          onChange={handleChange}
+          autoFocus
+          name="login"
+          label="Login"
+          variant="standard"
+          margin="normal"
+        />
+        <TextField
+          onChange={handleChange}
+          name="password"
+          type="password"
+          label="Password"
+          variant="standard"
+          margin="normal"
+        />
+        <TextField
+          onChange={handleChange}
+          name="fullName"
+          label="Full name"
+          variant="standard"
+          margin="normal"
+        />
         <Button
-          style={{
-            margin: "2em auto 0 auto",
-            width: "100%",
-          }}
+          type="submit"
+          disabled={!isCanSignUp()}
+          variant="contained"
+          style={{ margin: "2em 0 0 0" }}
         >
-          To login form
+          Create account
         </Button>
-      </Link>
-    </>
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <Button
+            style={{
+              margin: "2em auto 0 auto",
+              width: "100%",
+            }}
+          >
+            To login form
+          </Button>
+        </Link>
+      </Stack>
+    </form>
   );
 }
