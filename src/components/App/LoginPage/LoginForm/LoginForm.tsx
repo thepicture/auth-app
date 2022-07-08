@@ -6,7 +6,6 @@ import { UserContext } from "../../../../contexts/UserContext";
 import { BASE_URL } from "../../../../http/Api";
 import UserContextInterface from "../../../../interfaces/UserContextInterface";
 import SignInResponse from "../../../../interfaces/SignInResponse";
-import jwtDecode, { JwtPayload } from "jwt-decode";
 import { toExpireDate } from "../../../../namespaces/JwtHelper";
 
 export function LoginForm() {

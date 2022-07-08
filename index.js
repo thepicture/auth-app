@@ -60,7 +60,7 @@ app.post("/api/signin", (req, res) => {
     });
 });
 
-const SIGNUP_ROLE_ID = 2;
+const USER_ROLE_ID = 2;
 app.post("/api/signup", (req, res) => {
     const { login, password, fullName } = req.body;
 
@@ -74,7 +74,7 @@ app.post("/api/signup", (req, res) => {
             if (row) {
                 res.sendStatus(409);
             } else {
-                db.run(`insert into user (login, password, fullName, roleId) values (?,?,?,?)`, [login, password, fullName, SIGNUP_ROLE_ID]);
+                db.run(`insert into user (login, password, fullName, roleId) values (?,?,?,?)`, [login, password, fullName, USER_ROLE_ID]);
                 res.sendStatus(201);
             }
         }

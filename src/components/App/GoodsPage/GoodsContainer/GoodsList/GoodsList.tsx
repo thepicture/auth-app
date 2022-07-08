@@ -1,12 +1,12 @@
 import { Card, Box, Typography, Divider, Button } from "@mui/material";
-import { Goods } from "./../../../GoodsPage/GoodsPage";
+import { Goods } from "../../GoodsPage";
 
 interface GoodsProps {
   goods: Goods[];
-  onBasketAdd: (id: number) => void;
+  onShoppingCartAdd: (id: number) => void;
 }
 
-export default function GoodsItems(props: GoodsProps) {
+export default function GoodsList(props: GoodsProps) {
   const { goods } = props;
 
   return (
@@ -44,14 +44,16 @@ export default function GoodsItems(props: GoodsProps) {
                 style={{ objectFit: "cover", margin: "auto" }}
               />
               <Button
-                onClick={() => props.onBasketAdd(product.id)}
-                variant={product.isInBasket ? "outlined" : "contained"}
+                onClick={() => props.onShoppingCartAdd(product.id)}
+                variant={product.isInShoppingCart ? "outlined" : "contained"}
                 sx={{
                   margin: "2em 2em 0 2em",
                   boxSizing: "border-box",
                 }}
               >
-                {product.isInBasket ? "Remove from basket" : "Add to basket"}
+                {product.isInShoppingCart
+                  ? "Remove from shopping cart"
+                  : "Add to shopping cart"}
               </Button>
             </Box>
           </Card>

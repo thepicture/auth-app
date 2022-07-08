@@ -1,18 +1,10 @@
-import { useContext, useState } from "react";
-import { TextField, Button, Typography, Stack } from "@mui/material";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
+import { Button, Typography, Stack } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { UserContext } from "../../../../contexts/UserContext";
 import { BASE_URL } from "../../../../http/Api";
 
-interface SignInResponse {
-  token: string;
-  exp: number;
-}
-
-export default function OrderForm(props: any) {
-  const [cookies, setCookie] = useCookies(["token"]);
+export default function OrderForm() {
+  const [cookies] = useCookies(["token"]);
 
   const location: any = useLocation();
   const navigate = useNavigate();

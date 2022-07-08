@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import GoodsList from "./GoodsList/GoodsList";
+import GoodsContainer from "./GoodsContainer/GoodsContainer";
 import { BASE_URL } from "../../../http/Api";
 import { Button, Card } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -11,19 +11,19 @@ export interface Goods {
   priceInCents: number;
   imageUrl: string | undefined;
   alt: string | undefined;
-  isInBasket: boolean;
+  isInShoppingCart: boolean;
 }
 
 export default function GoodsPage() {
   const [{ token }] = useCookies(["token"]);
   const [goods, setGoods] = useState<Goods[]>([]);
 
-  function handleBasketAdd(id: number) {
+  function handleShoppingCartAdd(id: number) {
     const newGoods = goods.slice();
 
     newGoods.forEach((p) => {
       if (p.id === id) {
-        p.isInBasket = !p.isInBasket;
+        p.isInShoppingCart = !p.isInShoppingCart;
       }
       return p;
     });
@@ -47,7 +47,7 @@ export default function GoodsPage() {
 
   return (
     <>
-      <GoodsList goods={goods} onBasketAdd={handleBasketAdd} />
+      <GoodsContainer goods={goods} onShoppingCartAdd={handleShoppingCartAdd} />
       <Card
         elevation={5}
         sx={{
@@ -64,11 +64,11 @@ export default function GoodsPage() {
       >
         <Link
           to="/order"
-          state={{ goods: goods.filter((g) => g.isInBasket) }}
+          state={{ goods: goods.filter((g) => g.isInShoppingCart) }}
           style={{ textDecoration: "none" }}
         >
           <Button
-            disabled={!goods.some((g) => g.isInBasket)}
+            disabled={!goods.some((g) => g.isInShoppingCart)}
             variant="contained"
           >
             Order selected products
