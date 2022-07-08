@@ -6,6 +6,8 @@ import { UserContext } from "../../../../contexts/UserContext";
 import { BASE_URL } from "../../../../http/Api";
 import UserContextInterface from "../../../../interfaces/UserContextInterface";
 import SignInResponse from "../../../../interfaces/SignInResponse";
+import jwtDecode, { JwtPayload } from "jwt-decode";
+import { toExpireDate } from "../../../../namespaces/JwtHelper";
 
 export function LoginForm() {
   const [_cookies, setCookie] = useCookies(["token"]);
@@ -28,7 +30,9 @@ export function LoginForm() {
     try {
       if (response.status === 200) {
         const json: SignInResponse = await response.json();
-        setCookie("token", json.token, { maxAge: 60 });
+        setCookie("token", json.token, {
+          expires: toExpireDate(json.token),
+        });
         setUser({
           id: json.user.id,
           fullName: json.user.fullName,
