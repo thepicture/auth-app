@@ -57,6 +57,24 @@ app.post("/api/signin", (req, res) => {
     res.sendStatus(401);
 });
 
+app.post("/api/signup", (req, res) => {
+    const { login, password, fullName } = req.body;
+
+    let i = 0;
+    let length = users.length;
+    while (i < length) {
+        const user = users[i];
+        if (areEqualOrdinalIgnoreCase(user.login, login)) {
+            res.sendStatus(409);
+            return;
+        }
+        i++;
+    }
+
+    users = [{ id: users[users.length - 1].id + 1, login, password, fullName, role: "user" }, ...users.slice()];
+    res.sendStatus(201);
+});
+
 app.get("/api/users", (req, res) => {
     if (req.headers.authorization) {
         const token = req.headers.authorization.split(" ")[1];
@@ -73,24 +91,6 @@ app.get("/api/users", (req, res) => {
     } else {
         res.sendStatus(401);
     }
-});
-
-app.post("/api/signup", (req, res) => {
-    const { login, password, fullName } = req.body;
-
-    let i = 0;
-    let length = users.length;
-    while (i < length) {
-        const user = users[i];
-        if (areEqualOrdinalIgnoreCase(user.login, login)) {
-            res.sendStatus(409);
-            return;
-        }
-        i++;
-    }
-
-    users = [{ login, password, fullName, role: "user" }, ...users.slice()];
-    res.sendStatus(201);
 });
 
 app.get("/api/goods", (req, res) => {
