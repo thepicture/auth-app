@@ -1,22 +1,18 @@
 import { useContext, useState } from "react";
 import { TextField, Button, Typography, Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
-import { User, UserContext } from "../../../../contexts/UserContext";
+import { UserContext } from "../../../../contexts/UserContext";
 import { BASE_URL } from "../../../../http/Api";
-
-interface SignInResponse {
-  token: string;
-  exp: number;
-}
+import UserContextInterface from "../../../../interfaces/UserContextInterface";
+import SignInResponse from "../../../../interfaces/SignInResponse";
 
 export function LoginForm() {
   const [_cookies, setCookie] = useCookies(["token"]);
   const navigate = useNavigate();
 
   const [loginUser, setLoginUser] = useState({ login: "", password: "" });
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext) as UserContextInterface;
 
   async function handleSignIn(event: React.FormEvent) {
     event.preventDefault();
@@ -33,7 +29,11 @@ export function LoginForm() {
       if (response.status === 200) {
         const json: SignInResponse = await response.json();
         setCookie("token", json.token, { maxAge: 60 });
-        setUser(jwt_decode<User>(json.token));
+        setUser({
+          id: json.user.id,
+          fullName: json.user.fullName,
+          token: json.token,
+        });
         navigate("/home");
       } else if (response.status === 401) {
         alert("Incorrect login or password");

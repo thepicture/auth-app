@@ -45,9 +45,9 @@ app.post("/api/signin", (req, res) => {
             areEqualOrdinalIgnoreCase(user.login, login) && user.password === password;
 
         if (areLoginAndPasswordCorrect) {
-            const token = jwt.sign({ fullName: user.fullName }, PRIVATE_KEY, { expiresIn: 60 });
+            const token = jwt.sign({ role: user.role }, PRIVATE_KEY, { expiresIn: 60 });
 
-            res.send({ token });
+            res.send({ token, user: { id: user.id, fullName: user.fullName } });
             return;
         }
 
@@ -89,7 +89,7 @@ app.post("/api/signup", (req, res) => {
         i++;
     }
 
-    users = [{ login, password, fullName }, ...users.slice()];
+    users = [{ login, password, fullName, role: "user" }, ...users.slice()];
     res.sendStatus(201);
 });
 
@@ -116,7 +116,7 @@ app.post("/api/order", (req, res) => {
         const token = req.headers.authorization.split(" ")[1];
         try {
             if (jwt.verify(token, PRIVATE_KEY)) {
-                res.send(201);
+                res.sendStatus(201);
             } else {
                 res.sendStatus(401);
             }

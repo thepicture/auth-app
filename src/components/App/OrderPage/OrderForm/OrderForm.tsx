@@ -3,7 +3,7 @@ import { TextField, Button, Typography, Stack } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
-import { User, UserContext } from "../../../../contexts/UserContext";
+import { UserContext } from "../../../../contexts/UserContext";
 import { BASE_URL } from "../../../../http/Api";
 
 interface SignInResponse {

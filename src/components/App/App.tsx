@@ -5,12 +5,16 @@ import GoodsPage from "./GoodsPage/GoodsPage";
 import HomePage from "./HomePage/HomePage";
 import { LoginPage } from "./LoginPage/LoginPage";
 import { RegisterPage } from "./RegisterPage/RegisterPage";
-import { UserContext, User } from "./../../contexts/UserContext";
+import { UserContext } from "./../../contexts/UserContext";
 import { useState } from "react";
 import OrderPage from "./OrderPage/OrderPage";
+import User from "../../interfaces/User";
 
 function App() {
-  const [user, setUser] = useState<User>({});
+  const [user, setUser] = useState<User | null>(null) as [
+    User,
+    React.Dispatch<React.SetStateAction<User>>
+  ];
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
