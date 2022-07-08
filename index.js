@@ -8,18 +8,24 @@ const cors = require("cors");
 
 const bodyParser = require("body-parser");
 
-const defaultUsers = require("./users.json");
-const defaultProducts = require("./goods.json");
-
 const DEFAULT_PORT = 80;
 const PORT = process.env.PORT || DEFAULT_PORT;
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
-let users = defaultUsers.slice();
+const sqlite3 = require('sqlite3');
+
+const db = new sqlite3.Database("./goods.db", (err) => {
+    if (err) {
+        console.log("Failed to open or create database: " + err)
+    } else {
+        console.log("Database has been opened or created");
+    }
+});
+
 
 const app = express();
-app.use(cors())
+app.use(cors());
 
 
 if (process.env.NODE_ENV === "production") {
@@ -35,62 +41,44 @@ app.listen(PORT, () => {
 
 app.post("/api/signin", (req, res) => {
     const { login, password } = req.body;
-
-    let i = 0;
-    let length = users.length;
-    while (i < length) {
-        const user = users[i];
-
-        const areLoginAndPasswordCorrect =
-            areEqualOrdinalIgnoreCase(user.login, login) && user.password === password;
-
-        if (areLoginAndPasswordCorrect) {
-            const token = jwt.sign({ role: user.role }, PRIVATE_KEY, { expiresIn: 60 });
-
-            res.send({ token, user: { id: user.id, fullName: user.fullName } });
-            return;
+    db.get(`select user.id, fullName, role.title
+            from user
+            inner join role
+            on user.roleId=role.id
+            where login = ? and password = ?
+            limit 1`, [login, password], (err, row) => {
+        if (err) {
+            res.sendStatus(500);
+        } else {
+            if (!row) {
+                res.sendStatus(401);
+            } else {
+                const token = jwt.sign({ role: row.role }, PRIVATE_KEY, { expiresIn: 60 });
+                res.send({ token, user: { id: row.id, fullName: row.fullName } });
+            }
         }
-
-        i++;
-    }
-
-    res.sendStatus(401);
+    });
 });
 
+const SIGNUP_ROLE_ID = 2;
 app.post("/api/signup", (req, res) => {
     const { login, password, fullName } = req.body;
 
-    let i = 0;
-    let length = users.length;
-    while (i < length) {
-        const user = users[i];
-        if (areEqualOrdinalIgnoreCase(user.login, login)) {
-            res.sendStatus(409);
-            return;
-        }
-        i++;
-    }
-
-    users = [{ id: users[users.length - 1].id + 1, login, password, fullName, role: "user" }, ...users.slice()];
-    res.sendStatus(201);
-});
-
-app.get("/api/users", (req, res) => {
-    if (req.headers.authorization) {
-        const token = req.headers.authorization.split(" ")[1];
-        try {
-            if (jwt.verify(token, PRIVATE_KEY)) {
-                res.send(users.map(u => u.login.toLowerCase()));
+    db.get(`select user.id
+            from user
+            where login = ?
+            limit 1`, login, (err, row) => {
+        if (err) {
+            res.sendStatus(500);
+        } else {
+            if (row) {
+                res.sendStatus(409);
             } else {
-                res.sendStatus(401);
+                db.run(`insert into user (login, password, fullName, roleId) values (?,?,?,?)`, [login, password, fullName, SIGNUP_ROLE_ID]);
+                res.sendStatus(201);
             }
-        } catch (error) {
-            console.log(error);
-            res.sendStatus(401);
         }
-    } else {
-        res.sendStatus(401);
-    }
+    });
 });
 
 app.get("/api/goods", (req, res) => {
@@ -98,7 +86,17 @@ app.get("/api/goods", (req, res) => {
         const token = req.headers.authorization.split(" ")[1];
         try {
             if (jwt.verify(token, PRIVATE_KEY)) {
-                res.send(defaultProducts);
+                db.all(`select * from product`, (err, rows) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        if (rows) {
+                            res.send(rows);
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    }
+                });
             } else {
                 res.sendStatus(401);
             }
@@ -132,11 +130,3 @@ app.post("/api/order", (req, res) => {
 app.get('*', (_req, res) => {
     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
-
-/**
- * @param {string} first
- * @param {string} second
- */
-function areEqualOrdinalIgnoreCase(first, second) {
-    return first.localeCompare(second, undefined, { sensitivity: 'accent' }) === 0;
-}
