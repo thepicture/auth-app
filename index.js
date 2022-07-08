@@ -13,8 +13,9 @@ const PORT = process.env.PORT || DEFAULT_PORT;
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
-const sqlite3 = require('sqlite3');
+const { default: jwtDecode } = require("jwt-decode");
 
+const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database("./goods.db", (err) => {
     if (err) {
         console.log("Failed to open or create database: " + err)
@@ -53,7 +54,7 @@ app.post("/api/signin", (req, res) => {
             if (!row) {
                 res.sendStatus(401);
             } else {
-                const token = jwt.sign({ role: row.role }, PRIVATE_KEY, { expiresIn: 60 });
+                const token = jwt.sign({ role: row.role }, PRIVATE_KEY, { expiresIn: 60, subject: String(row.id) });
                 res.send({ token, user: { id: row.id, fullName: row.fullName } });
             }
         }
@@ -114,6 +115,24 @@ app.post("/api/order", (req, res) => {
         const token = req.headers.authorization.split(" ")[1];
         try {
             if (jwt.verify(token, PRIVATE_KEY)) {
+                db.run(`insert into [order] (creationUnixTime, userId) values (?,?)`, [+new Date(), jwtDecode(token).sub], function (err) {
+                    if (!err) {
+                        const productIds = req.body;
+                        for (let productId of productIds) {
+                            db.run(`insert into productOfOrder (productId, orderId) values (?,?)`, [productId, this.lastID], (err) => {
+                                if (err) {
+                                    console.log(err);
+                                    res.sendStatus(500);
+                                    return;
+                                }
+                            });
+                        }
+                    } else {
+                        console.log(err);
+                        res.sendStatus(500);
+                        return;
+                    }
+                });
                 res.sendStatus(201);
             } else {
                 res.sendStatus(401);

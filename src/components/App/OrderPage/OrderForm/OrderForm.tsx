@@ -18,7 +18,9 @@ export default function OrderForm() {
         "Content-Type": "application/json",
         Authorization: "Bearer " + cookies.token,
       },
-      body: JSON.stringify(location.state.goods),
+      body: JSON.stringify(
+        location.state.goods.map((product: { id: number }) => product.id)
+      ),
     });
 
     try {
@@ -34,7 +36,7 @@ export default function OrderForm() {
   return (
     <form onSubmit={handleSignIn}>
       <Stack>
-        <Typography variant="h3" component="h1" align="center">
+        <Typography component="h1" variant="h3" align="center">
           Order {location.state.goods.length} products
         </Typography>
         <Button
