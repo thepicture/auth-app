@@ -20,6 +20,7 @@ export function LoginForm() {
 
     const response = await fetch(BASE_URL + "/api/signin", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -53,6 +54,10 @@ export function LoginForm() {
     }
   }
 
+  function isCanSignIn() {
+    return loginUser.login !== "" && loginUser.password !== "";
+  }
+
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
@@ -84,6 +89,7 @@ export function LoginForm() {
         />
         <Button
           type="submit"
+          disabled={!isCanSignIn()}
           variant="contained"
           style={{ margin: "2em 0 0 0" }}
         >
