@@ -183,6 +183,38 @@ app.get("/api/order", (req, res) => {
     }
 });
 
+app.get("/api/order/:id", (req, res) => {
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(" ")[1];
+        try {
+            if (jwt.verify(token, PRIVATE_KEY)) {
+                db.all(`select * from productOfOrder
+                        inner join product on productOfOrder.productId = product.id
+                        inner join [order] on productOfOrder.orderId = [order].id
+                        where [order].userId = ? and productOfOrder.orderId = ?`, [jwtDecode(token).sub, req.params.id], (err, rows) => {
+                    if (err) {
+                        console.log(err);
+                        res.sendStatus(500);
+                    } else {
+                        if (rows) {
+                            res.send(rows);
+                        } else {
+                            res.sendStatus(404);
+                        }
+                    }
+                });
+            } else {
+                res.sendStatus(401);
+            }
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(401);
+        }
+    } else {
+        res.sendStatus(401);
+    }
+});
+
 app.get('*', (_req, res) => {
     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });

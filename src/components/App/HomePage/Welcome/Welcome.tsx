@@ -1,6 +1,5 @@
 import { Typography } from "@mui/material";
 import { useCookies } from "react-cookie";
-import User from "../../../../interfaces/User";
 
 export default function Welcome() {
   const [cookies] = useCookies(["user"]);
