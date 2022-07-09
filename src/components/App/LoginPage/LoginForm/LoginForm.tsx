@@ -6,10 +6,10 @@ import { UserContext } from "../../../../contexts/UserContext";
 import { BASE_URL } from "../../../../http/Api";
 import UserContextInterface from "../../../../interfaces/UserContextInterface";
 import SignInResponse from "../../../../interfaces/SignInResponse";
-import { toExpireDate } from "../../../../namespaces/JwtHelper";
+import { toExpireDate } from "../../../../helpers/JwtHelper";
 
 export function LoginForm() {
-  const [_cookies, setCookie] = useCookies(["token"]);
+  const [_cookies, setCookie] = useCookies(["token", "user"]);
   const navigate = useNavigate();
 
   const [loginUser, setLoginUser] = useState({ login: "", password: "" });
@@ -30,6 +30,9 @@ export function LoginForm() {
       if (response.status === 200) {
         const json: SignInResponse = await response.json();
         setCookie("token", json.token, {
+          expires: toExpireDate(json.token),
+        });
+        setCookie("user", json.user, {
           expires: toExpireDate(json.token),
         });
         setUser({

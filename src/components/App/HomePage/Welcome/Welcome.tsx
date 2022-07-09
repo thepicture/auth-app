@@ -1,14 +1,13 @@
 import { Typography } from "@mui/material";
-import { useContext } from "react";
-import { UserContext } from "../../../../contexts/UserContext";
-import UserContextInterface from "../../../../interfaces/UserContextInterface";
+import { useCookies } from "react-cookie";
+import User from "../../../../interfaces/User";
 
 export default function Welcome() {
-  const { user } = useContext(UserContext) as UserContextInterface;
+  const [cookies] = useCookies(["user"]);
 
   return (
     <Typography component="h1" variant="h3" textAlign="center">
-      You are logged in as {user.fullName}
+      You are logged in as {cookies.user.fullName}
     </Typography>
   );
 }
