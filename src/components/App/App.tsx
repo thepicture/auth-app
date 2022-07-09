@@ -9,6 +9,7 @@ import { UserContext } from "./../../contexts/UserContext";
 import { useState } from "react";
 import OrderPage from "./OrderPage/OrderPage";
 import User from "../../interfaces/User";
+import MyOrdersPage from "./MyOrdersPage/MyOrdersPage";
 
 function App() {
   const [user, setUser] = useState<User | null>(null) as [
@@ -64,6 +65,14 @@ function App() {
           element={
             <PrivateRoute>
               <OrderPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <PrivateRoute>
+              <MyOrdersPage />
             </PrivateRoute>
           }
         />

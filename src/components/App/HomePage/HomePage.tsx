@@ -48,6 +48,23 @@ export default function HomePage() {
             Show goods
           </Button>
         </Link>
+        <Link
+          to="/orders"
+          style={{
+            textDecoration: "none",
+            width: "100%",
+          }}
+        >
+          <Button
+            variant="contained"
+            style={{
+              width: "100%",
+              margin: "2em auto 0 auto",
+            }}
+          >
+            Show my orders
+          </Button>
+        </Link>
         <Button
           onClick={handleLogout}
           sx={{
