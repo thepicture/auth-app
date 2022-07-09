@@ -146,6 +146,43 @@ app.post("/api/order", (req, res) => {
     }
 });
 
+app.get("/api/order", (req, res) => {
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(" ")[1];
+        try {
+            if (jwt.verify(token, PRIVATE_KEY)) {
+                db.all(`select [order].id as orderId, 
+                               [order].creationUnixTime, 
+                               SUM(product.priceInCents) as sumInCents,
+                               COUNT(product.id) as countOfProducts from [order]
+                        inner join productOfOrder
+                        on [order].id = productOfOrder.orderId
+                        inner join product
+                        on productOfOrder.productId = product.id
+                        where userId=?
+                        group by [order].id`, [jwtDecode(token).sub], (err, rows) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        if (rows) {
+                            res.send(rows);
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    }
+                });
+            } else {
+                res.sendStatus(401);
+            }
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(401);
+        }
+    } else {
+        res.sendStatus(401);
+    }
+});
+
 app.get('*', (_req, res) => {
     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
