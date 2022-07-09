@@ -22,6 +22,7 @@ export default function GoodsContainer(props: GoodsProps) {
         </Typography>
         <GoodsList
           goods={props.goods}
+          canCartAdd
           onShoppingCartAdd={props.onShoppingCartAdd}
         />
       </>

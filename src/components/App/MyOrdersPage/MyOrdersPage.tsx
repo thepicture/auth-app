@@ -21,7 +21,7 @@ export default function MyOrdersPage() {
         setOrders(json);
         setIsLoading(false);
       });
-  }, [orders, isLoading]);
+  }, []);
 
   return (
     <Card

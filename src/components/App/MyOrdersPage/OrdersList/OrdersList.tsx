@@ -1,4 +1,5 @@
-import { Box, Card, Divider, Typography } from "@mui/material";
+import { Box, Button, Card, Divider, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 import Order from "../../../../interfaces/Order";
 
 interface OrdersListProps {
@@ -54,6 +55,19 @@ export default function OrdersList({ orders, isLoading }: OrdersListProps) {
               >
                 Price: {Math.fround(order.sumInCents / 100)}$
               </Typography>
+              <Link
+                to={"/orderProducts/" + order.orderId}
+                style={{ textDecoration: "none" }}
+              >
+                <Button
+                  style={{
+                    margin: "2em auto 0 auto",
+                    width: "100%",
+                  }}
+                >
+                  Products
+                </Button>
+              </Link>
             </Box>
           </Card>
         );

@@ -4,6 +4,7 @@ import { Goods } from "../../GoodsPage";
 interface GoodsProps {
   goods: Goods[];
   onShoppingCartAdd: (id: number) => void;
+  canCartAdd?: boolean;
 }
 
 export default function GoodsList(props: GoodsProps) {
@@ -43,18 +44,20 @@ export default function GoodsList(props: GoodsProps) {
                 width="100%"
                 style={{ objectFit: "cover", margin: "auto" }}
               />
-              <Button
-                onClick={() => props.onShoppingCartAdd(product.id)}
-                variant={product.isInShoppingCart ? "outlined" : "contained"}
-                sx={{
-                  margin: "2em 2em 0 2em",
-                  boxSizing: "border-box",
-                }}
-              >
-                {product.isInShoppingCart
-                  ? "Remove from shopping cart"
-                  : "Add to shopping cart"}
-              </Button>
+              {props.canCartAdd && (
+                <Button
+                  onClick={() => props.onShoppingCartAdd(product.id)}
+                  variant={product.isInShoppingCart ? "outlined" : "contained"}
+                  sx={{
+                    margin: "2em 2em 0 2em",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  {product.isInShoppingCart
+                    ? "Remove from shopping cart"
+                    : "Add to shopping cart"}
+                </Button>
+              )}
             </Box>
           </Card>
         );

@@ -11,6 +11,8 @@ import OrderPage from "./OrderPage/OrderPage";
 import User from "../../interfaces/User";
 import MyOrdersPage from "./MyOrdersPage/MyOrdersPage";
 import { useCookies } from "react-cookie";
+import OrderForm from "./OrderPage/OrderForm/OrderForm";
+import OrderGoods from "./OrderGoods/OrderGoods";
 
 function App() {
   const [user, setUser] = useState<User | null>(null) as [
@@ -74,6 +76,14 @@ function App() {
           element={
             <PrivateRoute>
               <MyOrdersPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/orderProducts/:id"
+          element={
+            <PrivateRoute>
+              <OrderGoods />
             </PrivateRoute>
           }
         />
