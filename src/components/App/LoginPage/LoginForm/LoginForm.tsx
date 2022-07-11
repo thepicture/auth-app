@@ -20,6 +20,7 @@ export function LoginForm() {
     try {
       const response = await api.post("/api/signin", loginUser, {
         withCredentials: true,
+        validateStatus: (status) => status === 401 || status === 200,
       });
       if (response.status === 200) {
         const data: SignInResponse = response.data;
@@ -29,9 +30,9 @@ export function LoginForm() {
           fullName: data.user.fullName,
         });
         navigate("/home");
-      }
+      } else if (response.status === 401) alert("Incorrect login or password");
     } catch (error) {
-      alert("Incorrect login or password");
+      alert("Cannot login: " + error);
     }
   }
 
