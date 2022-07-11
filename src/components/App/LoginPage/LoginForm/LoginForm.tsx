@@ -3,10 +3,8 @@ import { TextField, Button, Typography, Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { UserContext } from "../../../../contexts/UserContext";
-import { BASE_URL } from "../../../../http/Api";
-import UserContextInterface from "../../../../interfaces/UserContextInterface";
 import SignInResponse from "../../../../interfaces/SignInResponse";
-import { toExpireDate } from "../../../../helpers/JwtHelper";
+import UserContextInterface from "../../../../interfaces/UserContextInterface";
 
 export function LoginForm() {
   const [_cookies, setCookie] = useCookies(["token", "user"]);
@@ -18,7 +16,7 @@ export function LoginForm() {
   async function handleSignIn(event: React.FormEvent) {
     event.preventDefault();
 
-    const response = await fetch(BASE_URL + "/api/signin", {
+    const response = await fetch("/api/signin", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -30,16 +28,10 @@ export function LoginForm() {
     try {
       if (response.status === 200) {
         const json: SignInResponse = await response.json();
-        setCookie("token", json.token, {
-          expires: toExpireDate(json.token),
-        });
-        setCookie("user", json.user, {
-          expires: toExpireDate(json.token),
-        });
+        setCookie("user", json.user);
         setUser({
           id: json.user.id,
           fullName: json.user.fullName,
-          token: json.token,
         });
         navigate("/home");
       } else if (response.status === 401) {

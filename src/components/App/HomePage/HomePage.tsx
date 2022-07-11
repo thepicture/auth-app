@@ -4,13 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Welcome from "./Welcome/Welcome";
 
 export default function HomePage() {
-  const [_cookies, _setCookie, removeCookie] = useCookies(["token"]);
+  const [_cookies, _setCookie, removeCookie] = useCookies(["user"]);
   const navigate = useNavigate();
 
   function handleLogout() {
     if (!window.confirm("Do you really want to log out?")) return;
 
-    removeCookie("token");
+    removeCookie("user");
     navigate("/");
   }
 

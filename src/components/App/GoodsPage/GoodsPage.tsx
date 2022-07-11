@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import GoodsContainer from "./GoodsContainer/GoodsContainer";
-import { BASE_URL } from "../../../http/Api";
 import { Button, Card } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -33,11 +32,7 @@ export default function GoodsPage() {
 
   useEffect(() => {
     const setGoodsToState = async () => {
-      const response = await fetch(BASE_URL + "/api/goods", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const response = await fetch("/api/goods");
       const goodsResponse: Goods[] = await response.json();
       setGoods(goodsResponse);
     };

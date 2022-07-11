@@ -1,22 +1,17 @@
 import { Button, Typography, Stack } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import { BASE_URL } from "../../../../http/Api";
 
 export default function OrderForm() {
-  const [cookies] = useCookies(["token"]);
-
   const location: any = useLocation();
   const navigate = useNavigate();
 
   async function handleSignIn(event: React.FormEvent) {
     event.preventDefault();
 
-    const response = await fetch(BASE_URL + "/api/order", {
+    const response = await fetch("/api/order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + cookies.token,
       },
       body: JSON.stringify(
         location.state.goods.map((product: { id: number }) => product.id)

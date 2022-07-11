@@ -1,5 +1,4 @@
-import jwt_decode from "jwt-decode";
-import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
 interface Token {
@@ -7,13 +6,21 @@ interface Token {
 }
 
 export function PrivateRoute(props: any) {
-  const [cookies] = useCookies(["token"]);
+  const [isVerified, setIsVerified] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  function isJwtValid(): boolean {
-    return (
-      cookies.token && +new Date() < jwt_decode<Token>(cookies.token).exp * 1000
-    );
-  }
+  useEffect(() => {
+    const verify = async () =>
+      await fetch("/api/verify")
+        .then((res) => {
+          if (res.status === 200) setIsAuthenticated(true);
+        })
+        .finally(() => setIsVerified(true));
+    verify();
+  }, []);
 
-  return isJwtValid() ? props.children : <Navigate to="/login" replace />;
+  return (
+    isVerified &&
+    (isAuthenticated ? props.children : <Navigate to="/login" replace />)
+  );
 }
