@@ -1,5 +1,6 @@
 import { Button, Typography, Stack } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import api from "../../../../http/api";
 
 export default function OrderForm() {
   const location: any = useLocation();
@@ -8,17 +9,12 @@ export default function OrderForm() {
   async function handleSignIn(event: React.FormEvent) {
     event.preventDefault();
 
-    const response = await fetch("/api/order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(
-        location.state.goods.map((product: { id: number }) => product.id)
-      ),
-    });
-
     try {
+      const response = await api.post(
+        "/api/order",
+        location.state.goods.map((product: { id: number }) => product.id),
+        { withCredentials: true }
+      );
       if (response.status === 201) {
         alert("Order has been confirmed");
         navigate("/home");

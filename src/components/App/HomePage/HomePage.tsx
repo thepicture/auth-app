@@ -31,23 +31,16 @@ export default function HomePage() {
         flexDirection="column"
       >
         <Welcome />
-        <Link
-          to="/goods"
+        <Button
+          variant="contained"
+          onClick={() => navigate("/goods")}
           style={{
-            textDecoration: "none",
             width: "100%",
+            margin: "2em auto 0 auto",
           }}
         >
-          <Button
-            variant="contained"
-            style={{
-              width: "100%",
-              margin: "2em auto 0 auto",
-            }}
-          >
-            Show goods
-          </Button>
-        </Link>
+          Show goods
+        </Button>
         <Link
           to="/orders"
           style={{

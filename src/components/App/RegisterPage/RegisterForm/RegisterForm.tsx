@@ -1,9 +1,11 @@
 import { FormEvent, useState } from "react";
 import { TextField, Button, Typography, Stack } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../../../http/api";
 
 export function RegisterForm() {
   const [user, setUser] = useState({ login: "", password: "", fullName: "" });
+  const navigate = useNavigate();
 
   function isCanSignUp() {
     return user.login && user.password && user.fullName;
@@ -12,20 +14,18 @@ export function RegisterForm() {
   async function handleSignUp(event: FormEvent) {
     event.preventDefault();
 
-    const response = await fetch("/api/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-
-    if (response.status === 201) {
-      alert("You have created a new account");
-    } else if (response.status === 409) {
-      alert("User with this login already exists");
-    } else {
-      alert("Server did not respond as expected: " + response.status);
+    try {
+      const response = await api.post("/api/signup", user, {
+        validateStatus: (status) => status >= 201 && status <= 409,
+      });
+      if (response.status === 201) {
+        alert("You have created a new account");
+        navigate("/login");
+      } else if (response.status === 409) {
+        alert("User with this login already exists");
+      }
+    } catch (error: any) {
+      alert("Server did not respond as expected: " + error);
     }
   }
 

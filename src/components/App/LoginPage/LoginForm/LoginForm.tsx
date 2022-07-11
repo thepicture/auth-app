@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import { UserContext } from "../../../../contexts/UserContext";
 import SignInResponse from "../../../../interfaces/SignInResponse";
 import UserContextInterface from "../../../../interfaces/UserContextInterface";
+import api from "../../../../http/api";
 
 export function LoginForm() {
   const [_cookies, setCookie] = useCookies(["token", "user"]);
@@ -16,33 +17,21 @@ export function LoginForm() {
   async function handleSignIn(event: React.FormEvent) {
     event.preventDefault();
 
-    const response = await fetch("/api/signin", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginUser),
-    });
-
     try {
+      const response = await api.post("/api/signin", loginUser, {
+        withCredentials: true,
+      });
       if (response.status === 200) {
-        const json: SignInResponse = await response.json();
-        setCookie("user", json.user);
+        const data: SignInResponse = response.data;
+        setCookie("user", data.user);
         setUser({
-          id: json.user.id,
-          fullName: json.user.fullName,
+          id: data.user.id,
+          fullName: data.user.fullName,
         });
         navigate("/home");
-      } else if (response.status === 401) {
-        alert("Incorrect login or password");
-      } else {
-        throw new Error(
-          "Server did not respond as expected: " + response.status
-        );
       }
     } catch (error) {
-      alert("Cannot sign in: " + error);
+      alert("Incorrect login or password");
     }
   }
 

@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import api from "../../../http/api";
 import GoodsList from "../GoodsPage/GoodsContainer/GoodsList/GoodsList";
 import { Goods } from "../GoodsPage/GoodsPage";
 
@@ -11,8 +12,8 @@ export default function OrderGoods() {
 
   useEffect(() => {
     const setGoodsToState = async () => {
-      const response = await fetch("/api/orderProducts/" + id);
-      const goodsResponse: Goods[] = await response.json();
+      const response = await api.get("/api/orderProducts/" + id);
+      const goodsResponse: Goods[] = response.data;
       setGoods(goodsResponse);
     };
 

@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import GoodsContainer from "./GoodsContainer/GoodsContainer";
 import { Button, Card } from "@mui/material";
 import { Link } from "react-router-dom";
+import api from "../../../http/api";
 
 export interface Goods {
   id: number;
@@ -32,8 +33,8 @@ export default function GoodsPage() {
 
   useEffect(() => {
     const setGoodsToState = async () => {
-      const response = await fetch("/api/goods");
-      const goodsResponse: Goods[] = await response.json();
+      const response = await api.get("/api/goods");
+      const goodsResponse: Goods[] = response.data;
       setGoods(goodsResponse);
     };
 

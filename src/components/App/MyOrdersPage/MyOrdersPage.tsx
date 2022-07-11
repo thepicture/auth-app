@@ -1,5 +1,6 @@
 import { Box, Card } from "@mui/material";
 import { useEffect, useState } from "react";
+import api from "../../../http/api";
 import Order from "../../../interfaces/Order";
 import OrdersList from "./OrdersList/OrdersList";
 
@@ -8,12 +9,10 @@ export default function MyOrdersPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/order")
-      .then((response) => response.json())
-      .then((json: Order[]) => {
-        setOrders(json);
-        setIsLoading(false);
-      });
+    api.get("/api/order").then((response) => {
+      setOrders(response.data);
+      setIsLoading(false);
+    });
   }, []);
 
   return (
