@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { GuestRoute } from "./GuestRoute/GuestRoute";
 import { PrivateRoute } from "./PrivateRoute/PrivateRoute";
 import GoodsPage from "./GoodsPage/GoodsPage";
@@ -10,8 +10,6 @@ import { useState } from "react";
 import OrderPage from "./OrderPage/OrderPage";
 import User from "../../interfaces/User";
 import MyOrdersPage from "./MyOrdersPage/MyOrdersPage";
-import { useCookies } from "react-cookie";
-import OrderForm from "./OrderPage/OrderForm/OrderForm";
 import OrderGoods from "./OrderGoods/OrderGoods";
 
 function App() {
@@ -86,6 +84,10 @@ function App() {
               <OrderGoods />
             </PrivateRoute>
           }
+        />
+        <Route
+          path="*"
+          element={<Navigate to={!!user ? "/home" : "/login"} />}
         />
       </Routes>
     </UserContext.Provider>
