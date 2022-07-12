@@ -1,6 +1,4 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { GuestRoute } from "./GuestRoute/GuestRoute";
-import { PrivateRoute } from "./PrivateRoute/PrivateRoute";
 import GoodsPage from "./GoodsPage/GoodsPage";
 import HomePage from "./HomePage/HomePage";
 import { LoginPage } from "./LoginPage/LoginPage";
@@ -12,70 +10,14 @@ import OrderGoods from "./OrderGoods/OrderGoods";
 function App() {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <GuestRoute>
-            <LoginPage />
-          </GuestRoute>
-        }
-      />
-      <Route
-        path="/login"
-        element={
-          <GuestRoute>
-            <LoginPage />
-          </GuestRoute>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <GuestRoute>
-            <RegisterPage />
-          </GuestRoute>
-        }
-      />
-      <Route
-        path="/home"
-        element={
-          <PrivateRoute>
-            <HomePage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/goods"
-        element={
-          <PrivateRoute>
-            <GoodsPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/order"
-        element={
-          <PrivateRoute>
-            <OrderPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/orders"
-        element={
-          <PrivateRoute>
-            <MyOrdersPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/orderProducts/:id"
-        element={
-          <PrivateRoute>
-            <OrderGoods />
-          </PrivateRoute>
-        }
-      />
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/goods" element={<GoodsPage />} />
+      <Route path="/order" element={<OrderPage />} />
+      <Route path="/orders" element={<MyOrdersPage />} />
+      <Route path="/orderProducts/:id" element={<OrderGoods />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
