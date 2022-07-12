@@ -1,12 +1,13 @@
-import { Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../http/api";
 import GoodsList from "../GoodsPage/GoodsContainer/GoodsList/GoodsList";
 import { Goods } from "../GoodsPage/GoodsPage";
 
 export default function OrderGoods() {
   const [goods, setGoods] = useState<Goods[]>([]);
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -25,6 +26,9 @@ export default function OrderGoods() {
       <Typography component="h1" variant="h3" textAlign="center">
         Order goods
       </Typography>
+      <Box display="flex" justifyContent="center">
+        <Button onClick={() => navigate("/orders")}>Go back</Button>
+      </Box>
       <GoodsList goods={goods} onShoppingCartAdd={() => {}} />
     </>
   );
