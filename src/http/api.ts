@@ -9,13 +9,15 @@ api.interceptors.request.use(config => {
 })
 
 api.interceptors.response.use(response => response, async (error) => {
-    if (error.response.status === 401 && !error.config.isTriedToGetAccessToken) {
-        await api.get("/api/getAccessToken");
-        error.config.isTriedToGetAccessToken = true;
-        return api(error.config);
-    }
-    else {
-        history.replace("/login");
+    console.log(error.config);
+    if (error.response.status === 401) {
+        if (error.config.isTriedToGetAccessToken) {
+            history.replace("/login");
+        } else {
+            await api.get("/api/getAccessToken");
+            error.config.isTriedToGetAccessToken = true;
+            return api(error.config);
+        }
     }
 });
 

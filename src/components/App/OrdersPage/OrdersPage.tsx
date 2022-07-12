@@ -5,7 +5,7 @@ import api from "../../../http/api";
 import Order from "../../../interfaces/Order";
 import OrdersList from "./OrdersList/OrdersList";
 
-export default function MyOrdersPage() {
+export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();

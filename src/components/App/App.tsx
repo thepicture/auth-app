@@ -4,8 +4,8 @@ import HomePage from "./HomePage/HomePage";
 import { LoginPage } from "./LoginPage/LoginPage";
 import { RegisterPage } from "./RegisterPage/RegisterPage";
 import OrderPage from "./OrderPage/OrderPage";
-import MyOrdersPage from "./MyOrdersPage/MyOrdersPage";
-import OrderGoods from "./OrderGoods/OrderGoods";
+import OrdersPage from "./OrdersPage/OrdersPage";
+import MakeOrderPage from "./MakeOrderPage/MakeOrderPage";
 
 function App() {
   return (
@@ -15,9 +15,9 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/goods" element={<GoodsPage />} />
-      <Route path="/order" element={<OrderPage />} />
-      <Route path="/orders" element={<MyOrdersPage />} />
-      <Route path="/orderProducts/:id" element={<OrderGoods />} />
+      <Route path="/makeOrder" element={<MakeOrderPage />} />
+      <Route path="/orders" element={<OrdersPage />} />
+      <Route path="/orders/:id" element={<OrderPage />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

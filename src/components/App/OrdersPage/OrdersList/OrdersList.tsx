@@ -53,7 +53,7 @@ export default function OrdersList({ orders, isLoading }: OrdersListProps) {
                 Price: {Math.fround(order.sumInCents / 100)}$
               </Typography>
               <Link
-                to={"/orderProducts/" + order.orderId}
+                to={"/orders/" + order.orderId}
                 style={{ textDecoration: "none" }}
               >
                 <Button

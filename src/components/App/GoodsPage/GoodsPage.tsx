@@ -58,7 +58,7 @@ export default function GoodsPage() {
         }}
       >
         <Link
-          to="/order"
+          to="/makeOrder"
           state={{ goods: goods.filter((g) => g.isInShoppingCart) }}
           style={{ textDecoration: "none" }}
         >
