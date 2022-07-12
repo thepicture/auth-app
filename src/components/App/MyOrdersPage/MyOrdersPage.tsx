@@ -1,4 +1,4 @@
-import { Box, Card } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import api from "../../../http/api";
 import Order from "../../../interfaces/Order";
@@ -16,23 +16,22 @@ export default function MyOrdersPage() {
   }, []);
 
   return (
-    <Card
-      style={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        padding: "3em",
-      }}
-    >
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column"
+    <>
+      <Typography component="h1" variant="h3" textAlign="center">
+        My orders
+      </Typography>
+      <Card
+        style={{
+          position: "absolute",
+          left: "50%",
+          transform: "translateX(-50%)",
+          padding: "3em",
+        }}
       >
-        <OrdersList orders={orders} isLoading={isLoading} />
-      </Box>
-    </Card>
+        <Box display="flex" flexWrap="wrap">
+          <OrdersList orders={orders} isLoading={isLoading} />
+        </Box>
+      </Card>
+    </>
   );
 }

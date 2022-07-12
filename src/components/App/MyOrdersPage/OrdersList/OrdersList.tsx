@@ -18,9 +18,6 @@ export default function OrdersList({ orders, isLoading }: OrdersListProps) {
 
   return (
     <>
-      <Typography component="h1" variant="h3" textAlign="center">
-        My orders
-      </Typography>
       {orders.map((order) => {
         return (
           <Card
