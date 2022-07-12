@@ -1,34 +1,22 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { TextField, Button, Typography, Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import { UserContext } from "../../../../contexts/UserContext";
 import SignInResponse from "../../../../interfaces/SignInResponse";
-import UserContextInterface from "../../../../interfaces/UserContextInterface";
 import api from "../../../../http/api";
 
 export function LoginForm() {
-  const [_cookies, setCookie] = useCookies(["token", "user"]);
   const navigate = useNavigate();
 
   const [loginUser, setLoginUser] = useState({ login: "", password: "" });
-  const { setUser } = useContext(UserContext) as UserContextInterface;
 
   async function handleSignIn(event: React.FormEvent) {
     event.preventDefault();
 
     try {
       const response = await api.post("/api/signin", loginUser, {
-        withCredentials: true,
         validateStatus: (status) => status === 401 || status === 200,
       });
       if (response.status === 200) {
-        const data: SignInResponse = response.data;
-        setCookie("user", data.user);
-        setUser({
-          id: data.user.id,
-          fullName: data.user.fullName,
-        });
         navigate("/home");
       } else if (response.status === 401) alert("Incorrect login or password");
     } catch (error) {

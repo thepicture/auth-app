@@ -1,17 +1,25 @@
 import { Box, Button, Card } from "@mui/material";
-import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../../../http/api";
+import User from "../../../interfaces/User";
 import Welcome from "./Welcome/Welcome";
 
 export default function HomePage() {
-  const [_cookies, _setCookie, removeCookie] = useCookies(["user"]);
   const navigate = useNavigate();
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await api.get("/api/me");
+      setUser(response.data.user);
+    };
+    fetchUser();
+  }, []);
 
   function handleLogout() {
     if (!window.confirm("Do you really want to log out?")) return;
-
-    removeCookie("user");
-    navigate("/");
+    else navigate("/");
   }
 
   return (
@@ -30,7 +38,7 @@ export default function HomePage() {
         alignItems="center"
         flexDirection="column"
       >
-        <Welcome />
+        <Welcome user={user} />
         <Button
           variant="contained"
           onClick={() => navigate("/goods")}

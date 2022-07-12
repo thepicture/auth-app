@@ -12,8 +12,7 @@ export default function OrderForm() {
     try {
       const response = await api.post(
         "/api/order",
-        location.state.goods.map((product: { id: number }) => product.id),
-        { withCredentials: true }
+        location.state.goods.map((product: { id: number }) => product.id)
       );
       if (response.status === 201) {
         alert("Order has been confirmed");

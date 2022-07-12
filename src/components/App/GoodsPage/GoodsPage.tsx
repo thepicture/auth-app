@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import GoodsContainer from "./GoodsContainer/GoodsContainer";
 import { Button, Card } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,7 +14,6 @@ export interface Goods {
 }
 
 export default function GoodsPage() {
-  const [{ token }] = useCookies(["token"]);
   const [goods, setGoods] = useState<Goods[]>([]);
   const navigate = useNavigate();
 
@@ -40,7 +38,7 @@ export default function GoodsPage() {
     };
 
     setGoodsToState();
-  }, [token]);
+  }, []);
 
   return (
     <>

@@ -1,15 +1,22 @@
 import axios from "axios";
-import Cookies from "js-cookie";
+import { history } from '../index';
 
 const api = axios.create();
 
-api.interceptors.response.use(response => response, error => {
-    if (error.response.status === 401 && !!Cookies.get("user")) {
-        Cookies.remove("user");
-        window.location.href = "/login";
+api.interceptors.request.use(config => {
+    config.withCredentials = true;
+    return config;
+})
+
+api.interceptors.response.use(response => response, async (error) => {
+    if (error.response.status === 401 && !error.config.isTriedToGetAccessToken) {
+        await api.get("/api/getAccessToken");
+        error.config.isTriedToGetAccessToken = true;
+        return api(error.config);
     }
-    else
-        return error;
+    else {
+        history.replace("/login");
+    }
 });
 
 export default api;
