@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import GoodsContainer from "./GoodsContainer/GoodsContainer";
 import { Button, Card } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../../http/api";
 
 export interface Goods {
@@ -17,6 +17,7 @@ export interface Goods {
 export default function GoodsPage() {
   const [{ token }] = useCookies(["token"]);
   const [goods, setGoods] = useState<Goods[]>([]);
+  const navigate = useNavigate();
 
   function handleShoppingCartAdd(id: number) {
     const newGoods = goods.slice();
@@ -55,7 +56,7 @@ export default function GoodsPage() {
           margin: "2em",
           boxSizing: "border-box",
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "space-between",
         }}
       >
         <Link
@@ -70,6 +71,7 @@ export default function GoodsPage() {
             Order selected products
           </Button>
         </Link>
+        <Button onClick={() => navigate("/home")}>To home page</Button>
       </Card>
     </>
   );
