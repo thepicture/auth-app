@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import GoodsPage from "./GoodsPage/GoodsPage";
+import ProductsPage from "./ProductsPage/ProductsPage";
 import HomePage from "./HomePage/HomePage";
 import { LoginPage } from "./LoginPage/LoginPage";
 import { RegisterPage } from "./RegisterPage/RegisterPage";
@@ -14,7 +14,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/home" element={<HomePage />} />
-      <Route path="/goods" element={<GoodsPage />} />
+      <Route path="/products" element={<ProductsPage />} />
       <Route path="/makeOrder" element={<MakeOrderPage />} />
       <Route path="/orders" element={<OrdersPage />} />
       <Route path="/orders/:id" element={<OrderPage />} />

@@ -12,7 +12,7 @@ export default function OrderForm() {
     try {
       const response = await api.post(
         "/api/order",
-        location.state.goods.map((product: { id: number }) => product.id)
+        location.state.products.map((product: { id: number }) => product.id)
       );
       if (response.status === 201) {
         alert("Order has been confirmed");
@@ -27,7 +27,7 @@ export default function OrderForm() {
     <form onSubmit={handleSignIn}>
       <Stack>
         <Typography component="h1" variant="h3" align="center">
-          Order {location.state.goods.length} products
+          Order {location.state.products.length} products
         </Typography>
         <Button
           type="submit"

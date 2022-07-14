@@ -1,18 +1,18 @@
 import { Card, Box, Typography, Divider, Button } from "@mui/material";
-import { Goods } from "../../GoodsPage";
+import { Product } from "../../ProductsPage";
 
-interface GoodsProps {
-  goods: Goods[];
+interface ProductsListProps {
+  products: Product[];
   onShoppingCartAdd: (id: number) => void;
   canCartAdd?: boolean;
 }
 
-export default function GoodsList(props: GoodsProps) {
-  const { goods } = props;
+export default function ProductsList(props: ProductsListProps) {
+  const { products } = props;
 
   return (
     <>
-      {goods.map((product) => {
+      {products.map((product) => {
         return (
           <Card
             key={product.id}

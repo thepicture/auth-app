@@ -41,13 +41,13 @@ export default function HomePage() {
         <Welcome user={user} />
         <Button
           variant="contained"
-          onClick={() => navigate("/goods")}
+          onClick={() => navigate("/products")}
           style={{
             width: "100%",
             margin: "2em auto 0 auto",
           }}
         >
-          Show goods
+          Show products
         </Button>
         <Link
           to="/orders"

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import GoodsContainer from "./GoodsContainer/GoodsContainer";
+import ProductsContainer from "./ProductsContainer/ProductsContainer";
 import { Button, Card } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../../http/api";
 
-export interface Goods {
+export interface Product {
   id: number;
   title: string;
   priceInCents: number;
@@ -13,36 +13,39 @@ export interface Goods {
   isInShoppingCart: boolean;
 }
 
-export default function GoodsPage() {
-  const [goods, setGoods] = useState<Goods[]>([]);
+export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
 
   function handleShoppingCartAdd(id: number) {
-    const newGoods = goods.slice();
+    const newProducts = products.slice();
 
-    newGoods.forEach((p) => {
+    newProducts.forEach((p) => {
       if (p.id === id) {
         p.isInShoppingCart = !p.isInShoppingCart;
       }
       return p;
     });
 
-    setGoods(newGoods);
+    setProducts(newProducts);
   }
 
   useEffect(() => {
-    const setGoodsToState = async () => {
-      const response = await api.get("/api/goods");
-      const goodsResponse: Goods[] = response.data;
-      setGoods(goodsResponse);
+    const setProductsToState = async () => {
+      const response = await api.get("/api/products");
+      const productsResponse: Product[] = response.data;
+      setProducts(productsResponse);
     };
 
-    setGoodsToState();
+    setProductsToState();
   }, []);
 
   return (
     <>
-      <GoodsContainer goods={goods} onShoppingCartAdd={handleShoppingCartAdd} />
+      <ProductsContainer
+        products={products}
+        onShoppingCartAdd={handleShoppingCartAdd}
+      />
       <Card
         elevation={5}
         sx={{
@@ -59,11 +62,11 @@ export default function GoodsPage() {
       >
         <Link
           to="/makeOrder"
-          state={{ goods: goods.filter((g) => g.isInShoppingCart) }}
+          state={{ products: products.filter((g) => g.isInShoppingCart) }}
           style={{ textDecoration: "none" }}
         >
           <Button
-            disabled={!goods.some((g) => g.isInShoppingCart)}
+            disabled={!products.some((g) => g.isInShoppingCart)}
             variant="contained"
           >
             Order selected products
