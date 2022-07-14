@@ -1,11 +1,13 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { TextField, Button, Typography, Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../../../http/api";
+import SnackbarContext from "../../../../contexts/SnackbarContext";
 
 export function RegisterForm() {
   const [user, setUser] = useState({ login: "", password: "", fullName: "" });
   const navigate = useNavigate();
+  const { showSnackbar } = useContext(SnackbarContext);
 
   function isCanSignUp() {
     return user.login && user.password && user.fullName;
@@ -19,13 +21,13 @@ export function RegisterForm() {
         validateStatus: (status) => status >= 201 && status <= 409,
       });
       if (response.status === 201) {
-        alert("You have created a new account");
+        showSnackbar("You have created a new account");
         navigate("/login");
       } else if (response.status === 409) {
-        alert("User with this login already exists");
+        showSnackbar("User with this login already exists");
       }
     } catch (error: any) {
-      alert("Server did not respond as expected: " + error);
+      showSnackbar("Server did not respond as expected: " + error);
     }
   }
 

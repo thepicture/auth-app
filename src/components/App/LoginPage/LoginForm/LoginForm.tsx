@@ -1,11 +1,18 @@
-import { useState } from "react";
-import { TextField, Button, Typography, Stack } from "@mui/material";
+import { useContext, useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Stack,
+  SnackbarProps,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import SignInResponse from "../../../../interfaces/SignInResponse";
 import api from "../../../../http/api";
+import SnackbarContext from "../../../../contexts/SnackbarContext";
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const { showSnackbar } = useContext(SnackbarContext);
 
   const [loginUser, setLoginUser] = useState({ login: "", password: "" });
 
@@ -18,9 +25,10 @@ export function LoginForm() {
       });
       if (response.status === 200) {
         navigate("/home");
-      } else if (response.status === 401) alert("Incorrect login or password");
+      } else if (response.status === 401)
+        showSnackbar("Incorrect login or password");
     } catch (error) {
-      alert("Cannot login: " + error);
+      showSnackbar("Cannot login: " + error);
     }
   }
 
@@ -38,7 +46,7 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSignIn}>
       <Stack>
-        <Typography variant="h3" component="h1" align="center">
+        <Typography component="h1" variant="h3" align="center">
           Sign in to continue
         </Typography>
         <TextField

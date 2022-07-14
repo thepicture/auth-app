@@ -1,10 +1,13 @@
 import { Button, Typography, Stack } from "@mui/material";
+import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import SnackbarContext from "../../../../contexts/SnackbarContext";
 import api from "../../../../http/api";
 
 export default function OrderForm() {
   const location: any = useLocation();
   const navigate = useNavigate();
+  const { showSnackbar } = useContext(SnackbarContext);
 
   async function handleSignIn(event: React.FormEvent) {
     event.preventDefault();
@@ -15,11 +18,11 @@ export default function OrderForm() {
         location.state.products.map((product: { id: number }) => product.id)
       );
       if (response.status === 201) {
-        alert("Order has been confirmed");
+        showSnackbar("Order has been confirmed");
         navigate("/home");
       }
     } catch (error) {
-      alert("Cannot order products: " + error);
+      showSnackbar("Cannot order products: " + error);
     }
   }
 
