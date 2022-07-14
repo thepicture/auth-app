@@ -43,6 +43,7 @@ export function LoginForm() {
         </Typography>
         <TextField
           onChange={handleChange}
+          autoComplete="username"
           autoFocus
           name="login"
           label="Login"

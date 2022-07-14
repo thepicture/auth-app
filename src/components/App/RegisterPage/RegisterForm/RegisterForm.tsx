@@ -44,7 +44,9 @@ export function RegisterForm() {
         </Typography>
         <TextField
           onChange={handleChange}
+          autoComplete="off"
           autoFocus
+          type="text"
           name="login"
           label="Login"
           variant="standard"
@@ -60,7 +62,9 @@ export function RegisterForm() {
         />
         <TextField
           onChange={handleChange}
+          autoComplete="name"
           name="fullName"
+          type="text"
           label="Full name"
           variant="standard"
           margin="normal"
