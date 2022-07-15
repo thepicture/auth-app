@@ -9,7 +9,6 @@ api.interceptors.request.use(config => {
 })
 
 api.interceptors.response.use(response => response, async (error) => {
-    console.log(error.config);
     if (error.response.status === 401) {
         if (error.config.isTriedToGetAccessToken) {
             history.replace("/login");

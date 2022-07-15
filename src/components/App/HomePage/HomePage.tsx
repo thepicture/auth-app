@@ -1,6 +1,7 @@
 import { Box, Button, Card } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import DialogContext, { DialogProps } from "../../../contexts/DialogContext";
 import api from "../../../http/api";
 import User from "../../../interfaces/User";
 import Welcome from "./Welcome/Welcome";
@@ -8,6 +9,7 @@ import Welcome from "./Welcome/Welcome";
 export default function HomePage() {
   const navigate = useNavigate();
   const [user, setUser] = useState<User>();
+  const { showQuestion } = useContext(DialogContext);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -18,8 +20,10 @@ export default function HomePage() {
   }, []);
 
   function handleLogout() {
-    if (!window.confirm("Do you really want to log out?")) return;
-    else navigate("/");
+    showQuestion(
+      "Do you really want to log out?",
+      (isConfirmed: boolean) => isConfirmed && navigate("/")
+    );
   }
 
   return (
