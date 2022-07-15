@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import ProductsPage from "./ProductsPage/ProductsPage";
 import HomePage from "./HomePage/HomePage";
 import { LoginPage } from "./LoginPage/LoginPage";
@@ -20,6 +20,7 @@ import {
 import SnackbarContext from "../../contexts/SnackbarContext";
 import { useState } from "react";
 import DialogContext from "../../contexts/DialogContext";
+import Header from "./Header/Header";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -29,6 +30,7 @@ function App() {
   const [callback, setCallback] = useState<{
     onClose: (result: boolean) => void;
   }>({ onClose: () => {} });
+  const location = useLocation();
 
   const showSnackbar = (message: string) => {
     setMessage(message);
@@ -54,17 +56,31 @@ function App() {
       <SnackbarContext.Provider value={{ showSnackbar }}>
         {
           <>
-            <Routes>
-              <Route path="/" element={<LoginPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/home" element={<HomePage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/makeOrder" element={<MakeOrderPage />} />
-              <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/orders/:id" element={<OrderPage />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
+            <Header />
+            <main
+              style={
+                !"/login/register/home/makeOrder".includes(location.pathname)
+                  ? {
+                      position: "relative",
+                      top: "50%",
+                      height: "100vh",
+                      marginTop: "100px",
+                    }
+                  : {}
+              }
+            >
+              <Routes>
+                <Route path="/" element={<LoginPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/makeOrder" element={<MakeOrderPage />} />
+                <Route path="/orders" element={<OrdersPage />} />
+                <Route path="/orders/:id" element={<OrderPage />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </main>
             <Snackbar
               open={open}
               autoHideDuration={6400}
