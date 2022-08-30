@@ -1,8 +1,12 @@
-import { Card } from "@mui/material";
-import axios from "axios";
 import { useEffect } from "react";
+
+import { Card } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
+
 import { LoginForm } from "./LoginForm/LoginForm";
+
+import styles from "./LoginPage.module.css";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -15,15 +19,7 @@ export function LoginPage() {
   }, []);
 
   return (
-    <Card
-      style={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        padding: "3em",
-      }}
-    >
+    <Card className={styles.Card}>
       <LoginForm />
     </Card>
   );

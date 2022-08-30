@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+
 import { Card, TextField } from "@mui/material";
-import { ChangeEvent, useEffect } from "react";
+
+import styles from "./SearchBar.module.css";
 
 export interface SearchBarProps {
   target: Array<any>;
@@ -12,16 +15,7 @@ const SearchBar = (props: SearchBarProps) => {
   }, []);
 
   return (
-    <Card
-      sx={{
-        margin: "1em auto",
-        padding: "2em 0",
-        width: "50%",
-        display: "flex",
-        justifyContent: "center",
-      }}
-      elevation={4}
-    >
+    <Card className={styles.Card} elevation={4}>
       <TextField
         onChange={(e) => props.onQueryChange(e.target.value)}
         placeholder="Search by title"

@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
+
 import ProductsContainer from "./ProductsContainer/ProductsContainer";
+
 import { Button, Card } from "@mui/material";
+
 import { Link, useNavigate } from "react-router-dom";
+
 import api from "../../../http/api";
+
+import styles from "./ProductsPage.module.css";
 
 export interface Product {
   id: number;
@@ -46,20 +52,7 @@ export default function ProductsPage() {
         products={products}
         onShoppingCartAdd={handleShoppingCartAdd}
       />
-      <Card
-        elevation={5}
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          left: "10px",
-          right: "10px",
-          padding: "2em",
-          margin: "2em",
-          boxSizing: "border-box",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
+      <Card className={styles.Card} elevation={5}>
         <Link
           to="/makeOrder"
           state={{ products: products.filter((g) => g.isInShoppingCart) }}

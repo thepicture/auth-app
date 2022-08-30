@@ -1,12 +1,9 @@
 import { useContext, useState } from "react";
-import {
-  TextField,
-  Button,
-  Typography,
-  Stack,
-  SnackbarProps,
-} from "@mui/material";
+
+import { TextField, Button, Typography, Stack } from "@mui/material";
+
 import { Link, useNavigate } from "react-router-dom";
+
 import api from "../../../../http/api";
 import SnackbarContext from "../../../../contexts/SnackbarContext";
 

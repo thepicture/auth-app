@@ -1,7 +1,12 @@
-import { Card } from "@mui/material";
 import { useEffect } from "react";
+
+import { Card } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
+
 import { RegisterForm } from "./RegisterForm/RegisterForm";
+
+import styles from "./RegisterPage.module.css";
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -13,15 +18,7 @@ export function RegisterPage() {
     navigateToHomeIfHasAccessToken();
   }, []);
   return (
-    <Card
-      style={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        padding: "3em",
-      }}
-    >
+    <Card className={styles.Card}>
       <RegisterForm />
     </Card>
   );

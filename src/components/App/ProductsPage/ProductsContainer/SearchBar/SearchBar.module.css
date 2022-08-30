@@ -1,0 +1,7 @@
+.Card {
+    margin: 1em auto;
+    padding: 2em 0;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}

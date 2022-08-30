@@ -1,9 +1,14 @@
-import { Box, Button, Card, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+
+import { Box, Button, Card, Typography } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
+
 import api from "../../../http/api";
 import Order from "../../../interfaces/Order";
 import OrdersList from "./OrdersList/OrdersList";
+
+import styles from "./OrdersPage.module.css";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -25,14 +30,7 @@ export default function OrdersPage() {
       <Box display="flex" justifyContent="center">
         <Button onClick={() => navigate("/home")}>Go back</Button>
       </Box>
-      <Card
-        style={{
-          position: "absolute",
-          left: "50%",
-          transform: "translateX(-50%)",
-          padding: "3em",
-        }}
-      >
+      <Card className={styles.Card}>
         <Box display="flex" flexWrap="wrap">
           <OrdersList orders={orders} isLoading={isLoading} />
         </Box>

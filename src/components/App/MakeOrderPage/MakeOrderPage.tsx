@@ -1,18 +1,12 @@
 import { Card } from "@mui/material";
-import React from "react";
+
 import OrderForm from "./OrderForm/OrderForm";
+
+import styles from "./MakeOrderPage.module.css";
 
 export default function MakeOrderPage() {
   return (
-    <Card
-      style={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        padding: "3em",
-      }}
-    >
+    <Card className={styles.Card}>
       <OrderForm />
     </Card>
   );

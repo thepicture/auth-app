@@ -1,5 +1,7 @@
-import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+
+import { Typography } from "@mui/material";
+
 import { Product } from "../ProductsPage";
 import ProductsList from "./ProductsList/ProductsList";
 import SearchBar from "./SearchBar/SearchBar";

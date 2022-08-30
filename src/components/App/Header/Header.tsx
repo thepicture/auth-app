@@ -1,19 +1,14 @@
 import { Box, Card, Stack } from "@mui/material";
+
 import { Link, useLocation } from "react-router-dom";
+
+import styles from "./Header.module.css";
 
 const Header = () => {
   const location = useLocation();
 
   return (
-    <header
-      style={{
-        position: "fixed",
-        left: 0,
-        top: 0,
-        right: 0,
-        zIndex: 1,
-      }}
-    >
+    <header className={styles.Header}>
       <Card square={true}>
         {location.pathname == "/login" || location.pathname == "/register" ? (
           <Stack
