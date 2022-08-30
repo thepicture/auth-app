@@ -16,7 +16,7 @@ export function RegisterPage() {
       if (response.ok) navigate("/home");
     };
     navigateToHomeIfHasAccessToken();
-  }, []);
+  }, [navigate]);
   return (
     <Card className={styles.Card}>
       <RegisterForm />

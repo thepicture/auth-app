@@ -1,6 +1,7 @@
 import { Box, Card, Stack } from "@mui/material";
 
 import { Link, useLocation } from "react-router-dom";
+import { Logo } from "../Logo/Logo";
 
 import styles from "./Header.module.css";
 
@@ -10,6 +11,7 @@ const Header = () => {
   return (
     <header className={styles.Header}>
       <Card square={true}>
+        <Logo />
         {location.pathname == "/login" || location.pathname == "/register" ? (
           <Stack
             direction="row"

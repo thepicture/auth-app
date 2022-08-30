@@ -1,0 +1,19 @@
+.LogoContainer {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+}
+
+.Logo {
+    color: #1976d2;
+    font-weight: bold;
+    margin-left: 1em;
+    text-decoration: none;
+    display: block;
+}
+
+.Logo::after {
+    content: "App";
+    color: black;
+}

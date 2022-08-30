@@ -12,7 +12,7 @@ export interface SearchBarProps {
 const SearchBar = (props: SearchBarProps) => {
   useEffect(() => {
     props.onQueryChange("");
-  }, []);
+  }, [props]);
 
   return (
     <Card className={styles.Card} elevation={4}>
