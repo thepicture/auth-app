@@ -30,7 +30,7 @@ export function LoginForm() {
   }
 
   function isCanSignIn() {
-    return loginUser.login !== "" && loginUser.password !== "";
+    return true;
   }
 
   function handleChange(
