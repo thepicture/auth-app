@@ -24,7 +24,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "npm run gh-pages",
+    "gh-pages": "gh-pages -d build -b gh-pages"
   },
   "eslintConfig": {
     "extends": [
@@ -50,8 +52,9 @@
     ]
   },
   "start": "node index",
-  "proxy": "http://localhost:3001",
+  "homepage": "https://thepicture.github.io/auth-app/",
   "devDependencies": {
-    "@types/js-cookie": "^3.0.2"
+    "@types/js-cookie": "^3.0.2",
+    "gh-pages": "^5.0.0"
   }
 }
