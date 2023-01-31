@@ -1,12 +1,18 @@
 # Auth React App
 
-# Functions
+## Functions
 - Registration
 - Authentication
 - Orders view
 - Shopping cart
 - Make a new order with goods in shopping cart
 
-# Running without clone
+## Demo
 
-Site can be visited online at [heroku](https://auth-react-app-native.herokuapp.com/).
+[https://thepicture.github.io/auth-app](https://thepicture.github.io/auth-app).
+
+## auth-app-backend
+
+API for auth-app
+
+[https://github.com/thepicture/auth-app-backend](https://github.com/thepicture/auth-app-backend)
